@@ -1,12 +1,19 @@
+using Newtonsoft.Json.Linq;
+using Photon.Pun;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
-public class EventName
+public delegate void SocketEvent_OnLoginResponse(JObject data);
+
+public class SocketEventName
 {
     public static string EVENT_LOGIN = "login";
+    public static string EVENT_MODIFY_NICKNAME = "modify nickname";
+}
+
+public class SocketEvent
+{
+    public static SocketEvent_OnLoginResponse OnLoginResponse;
 }
 
 public class SocketManager : MonoBehaviour 
@@ -18,7 +25,7 @@ public class SocketManager : MonoBehaviour
     public string ServerHost;
     public string ServerPort;
 
-    private void Awake()
+    void Awake()
     {
         if(Instance == null)
         {
@@ -34,13 +41,26 @@ public class SocketManager : MonoBehaviour
 
         Socket.OnConnected += (sender, e) =>
         {
-            Debug.Log("Connected to Server");
+            UIManager.AddDebugMessage("Connected to Socket Server");
         };
 
         Socket.OnDisconnected += (sender, e) =>
         {
-            Debug.Log("Disconnected from server");
+            UIManager.AddDebugMessage("Disconnected from server");
         };
+
+        Socket.OnUnityThread(SocketEventName.EVENT_LOGIN, (SocketIOClient.SocketIOResponse response) =>
+        {
+            JObject data = JObject.Parse(response.GetValue<object>().ToString());
+            SocketEvent.OnLoginResponse?.Invoke(data);
+        });
+
+
+        Socket.OnUnityThread(SocketEventName.EVENT_MODIFY_NICKNAME, (SocketIOClient.SocketIOResponse response) =>
+        {
+            JObject data = JObject.Parse(response.GetValue<object>().ToString());
+            GameManager.Instance.OnNickNameModifiedEvent?.Invoke(data.Value<string>("NickName"));
+        });
 
         Socket.Connect();
     }
