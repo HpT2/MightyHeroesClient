@@ -8,4 +8,5 @@ public class UserInfo
     public string UserName;
     public bool IsFirstLogin;
     public string NickName;
+    public int Coin = 1000;
 }

@@ -1,0 +1,593 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>H.Engine.IO</name>
+    </assembly>
+    <members>
+        <member name="T:H.Engine.IO.EngineIoClient">
+            <summary>
+            Engine.IO Client
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.WebSocketClient">
+            <summary>
+            Internal WebSocket Client
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.Proxy">
+            <summary>
+            Proxy
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.OpenMessage">
+            <summary>
+            This property contains OpenMessage after successful <seealso cref="M:H.Engine.IO.EngineIoClient.OpenAsync(System.Uri,System.Threading.CancellationToken)"/>
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.Id">
+            <summary>
+            An unique identifier for the socket session. <br/>
+            Set after the <seealso cref="E:H.Engine.IO.EngineIoClient.Opened"/> event is triggered.
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.IsOpened">
+            <summary>
+            This property is true after successful <seealso cref="M:H.Engine.IO.EngineIoClient.OpenAsync(System.Uri,System.Threading.CancellationToken)"/>
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.Uri">
+            <summary>
+            Opened uri.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="framework"></param>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OpenAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="uri"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OpenAsync(System.Uri,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="uri"></param>
+            <param name="timeout"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.CloseAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.SendMessageAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Sends new data with message prefix
+            </summary>
+            <param name="message"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.Dispose">
+            <summary>
+            Dispose internal resources
+            Prefer DisposeAsync if possible
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.DisposeAsync">
+            <summary>
+            Dispose internal resources
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="E:H.Engine.IO.EngineIoClient.Opened">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.SubscribeToOpened(System.EventHandler{H.Engine.IO.EngineIoClient.OpenedEventArgs})">
+            <summary>
+            A helper method to subscribe the Opened event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnOpened(H.Engine.IO.EngineIoClient.OpenedEventArgs)">
+            <summary>
+            A helper method to raise the Opened event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnOpened(H.Engine.IO.EngineIoOpenMessage)">
+            <summary>
+            A helper method to raise the Opened event.
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoClient.OpenedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.OpenedEventArgs.Message">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OpenedEventArgs.#ctor(H.Engine.IO.EngineIoOpenMessage)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OpenedEventArgs.Deconstruct(H.Engine.IO.EngineIoOpenMessage@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OpenedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Engine.IO.EngineIoClient.PingSent">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.SubscribeToPingSent(System.EventHandler{H.Engine.IO.EngineIoClient.PingSentEventArgs})">
+            <summary>
+            A helper method to subscribe the PingSent event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnPingSent(H.Engine.IO.EngineIoClient.PingSentEventArgs)">
+            <summary>
+            A helper method to raise the PingSent event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnPingSent(System.String)">
+            <summary>
+            A helper method to raise the PingSent event.
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoClient.PingSentEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.PingSentEventArgs.Message">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.PingSentEventArgs.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.PingSentEventArgs.Deconstruct(System.String@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.PingSentEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Engine.IO.EngineIoClient.PingReceived">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.SubscribeToPingReceived(System.EventHandler{H.Engine.IO.EngineIoClient.PingReceivedEventArgs})">
+            <summary>
+            A helper method to subscribe the PingReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnPingReceived(H.Engine.IO.EngineIoClient.PingReceivedEventArgs)">
+            <summary>
+            A helper method to raise the PingReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnPingReceived(System.String)">
+            <summary>
+            A helper method to raise the PingReceived event.
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoClient.PingReceivedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.PingReceivedEventArgs.Message">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.PingReceivedEventArgs.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.PingReceivedEventArgs.Deconstruct(System.String@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.PingReceivedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Engine.IO.EngineIoClient.PongReceived">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.SubscribeToPongReceived(System.EventHandler{H.Engine.IO.EngineIoClient.PongReceivedEventArgs})">
+            <summary>
+            A helper method to subscribe the PongReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnPongReceived(H.Engine.IO.EngineIoClient.PongReceivedEventArgs)">
+            <summary>
+            A helper method to raise the PongReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnPongReceived(System.String)">
+            <summary>
+            A helper method to raise the PongReceived event.
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoClient.PongReceivedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.PongReceivedEventArgs.Message">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.PongReceivedEventArgs.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.PongReceivedEventArgs.Deconstruct(System.String@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.PongReceivedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Engine.IO.EngineIoClient.MessageReceived">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.SubscribeToMessageReceived(System.EventHandler{H.Engine.IO.EngineIoClient.MessageReceivedEventArgs})">
+            <summary>
+            A helper method to subscribe the MessageReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnMessageReceived(H.Engine.IO.EngineIoClient.MessageReceivedEventArgs)">
+            <summary>
+            A helper method to raise the MessageReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnMessageReceived(System.String)">
+            <summary>
+            A helper method to raise the MessageReceived event.
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoClient.MessageReceivedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.MessageReceivedEventArgs.Message">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.MessageReceivedEventArgs.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.MessageReceivedEventArgs.Deconstruct(System.String@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.MessageReceivedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Engine.IO.EngineIoClient.Upgraded">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.SubscribeToUpgraded(System.EventHandler{H.Engine.IO.EngineIoClient.UpgradedEventArgs})">
+            <summary>
+            A helper method to subscribe the Upgraded event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnUpgraded(H.Engine.IO.EngineIoClient.UpgradedEventArgs)">
+            <summary>
+            A helper method to raise the Upgraded event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnUpgraded(System.String)">
+            <summary>
+            A helper method to raise the Upgraded event.
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoClient.UpgradedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.UpgradedEventArgs.Message">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.UpgradedEventArgs.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.UpgradedEventArgs.Deconstruct(System.String@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.UpgradedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Engine.IO.EngineIoClient.NoopReceived">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.SubscribeToNoopReceived(System.EventHandler{H.Engine.IO.EngineIoClient.NoopReceivedEventArgs})">
+            <summary>
+            A helper method to subscribe the NoopReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnNoopReceived(H.Engine.IO.EngineIoClient.NoopReceivedEventArgs)">
+            <summary>
+            A helper method to raise the NoopReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnNoopReceived(System.String)">
+            <summary>
+            A helper method to raise the NoopReceived event.
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoClient.NoopReceivedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.NoopReceivedEventArgs.Message">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.NoopReceivedEventArgs.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.NoopReceivedEventArgs.Deconstruct(System.String@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.NoopReceivedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Engine.IO.EngineIoClient.ExceptionOccurred">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.SubscribeToExceptionOccurred(System.EventHandler{H.Engine.IO.EngineIoClient.ExceptionOccurredEventArgs})">
+            <summary>
+            A helper method to subscribe the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnExceptionOccurred(H.Engine.IO.EngineIoClient.ExceptionOccurredEventArgs)">
+            <summary>
+            A helper method to raise the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnExceptionOccurred(System.Exception)">
+            <summary>
+            A helper method to raise the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoClient.ExceptionOccurredEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.ExceptionOccurredEventArgs.Exception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.ExceptionOccurredEventArgs.#ctor(System.Exception)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.ExceptionOccurredEventArgs.Deconstruct(System.Exception@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.ExceptionOccurredEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Engine.IO.EngineIoClient.Closed">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.SubscribeToClosed(System.EventHandler{H.Engine.IO.EngineIoClient.ClosedEventArgs})">
+            <summary>
+            A helper method to subscribe the Closed event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnClosed(H.Engine.IO.EngineIoClient.ClosedEventArgs)">
+            <summary>
+            A helper method to raise the Closed event.
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.OnClosed(System.String,System.Nullable{System.Net.WebSockets.WebSocketCloseStatus})">
+            <summary>
+            A helper method to raise the Closed event.
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoClient.ClosedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.ClosedEventArgs.Reason">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoClient.ClosedEventArgs.Status">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.ClosedEventArgs.#ctor(System.String,System.Nullable{System.Net.WebSockets.WebSocketCloseStatus})">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.ClosedEventArgs.Deconstruct(System.String@,System.Nullable{System.Net.WebSockets.WebSocketCloseStatus}@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoClient.ClosedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoOpenMessage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoOpenMessage.Sid">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoOpenMessage.Upgrades">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoOpenMessage.PingInterval">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoOpenMessage.PingTimeout">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:H.Engine.IO.EngineIoPacket">
+            <summary>
+            See https://github.com/socketio/engine.io-protocol#packet
+            </summary>
+        </member>
+        <member name="F:H.Engine.IO.EngineIoPacket.OpenPrefix">
+            <summary>
+            See https://github.com/socketio/engine.io-protocol#0-open
+            </summary>
+        </member>
+        <member name="F:H.Engine.IO.EngineIoPacket.ClosePrefix">
+            <summary>
+            See https://github.com/socketio/engine.io-protocol#1-close
+            </summary>
+        </member>
+        <member name="F:H.Engine.IO.EngineIoPacket.PingPrefix">
+            <summary>
+            See https://github.com/socketio/engine.io-protocol#2-ping
+            </summary>
+        </member>
+        <member name="F:H.Engine.IO.EngineIoPacket.PongPrefix">
+            <summary>
+            See https://github.com/socketio/engine.io-protocol#3-pong
+            </summary>
+        </member>
+        <member name="F:H.Engine.IO.EngineIoPacket.MessagePrefix">
+            <summary>
+            See https://github.com/socketio/engine.io-protocol#4-message
+            </summary>
+        </member>
+        <member name="F:H.Engine.IO.EngineIoPacket.UpgradePrefix">
+            <summary>
+            See https://github.com/socketio/engine.io-protocol#5-upgrade
+            </summary>
+        </member>
+        <member name="F:H.Engine.IO.EngineIoPacket.NoopPrefix">
+            <summary>
+            See https://github.com/socketio/engine.io-protocol#6-noop
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoPacket.Prefix">
+            <summary>
+            Packet type
+            </summary>
+        </member>
+        <member name="P:H.Engine.IO.EngineIoPacket.Value">
+            <summary>
+            Packet value
+            </summary>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoPacket.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="prefix"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoPacket.Decode(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.Engine.IO.EngineIoPacket.Encode">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

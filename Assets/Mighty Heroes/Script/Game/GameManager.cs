@@ -19,10 +19,13 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
     private GameState CurrentGameState;
 
-    public OnNickNameModified OnNickNameModifiedEvent;
-    public OnEnterDefaultRoom OnEnterDefaultRoomEvent;
-    public OnEnterSharedRoom OnEnterSharedRoomEvent;
-    public OnBeginPlaying OnBeginPlayingEvent;
+    public static OnNickNameModified OnNickNameModifiedEvent;
+    public static OnEnterDefaultRoom OnEnterDefaultRoomEvent;
+    public static OnEnterSharedRoom OnEnterSharedRoomEvent;
+    public static OnBeginPlaying OnBeginPlayingEvent;
+
+    [SerializeField]
+    private GameObject Character;
 
     private void Awake()
     {
@@ -69,6 +72,14 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         base.OnConnectedToMaster();
         UIManager.AddDebugMessage($"GameManager.OnConnectedToMaster: Connected to Photon Server", LogVerbose.Warning);
+        Photon.Realtime.RoomOptions roomOptions = new Photon.Realtime.RoomOptions();
+        PhotonNetwork.JoinOrCreateRoom("Test", roomOptions, Photon.Realtime.TypedLobby.Default);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        base.OnJoinedRoom();
+        PhotonNetwork.Instantiate("Bat", Vector3.zero, Quaternion.identity);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -106,6 +117,11 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         UIManager.AddDebugMessage($"GameManager.ChangeState: NewState: {NewState}");
+    }
+
+    public GameState GetCurrentGameState()
+    {
+        return CurrentGameState; 
     }
 }
 

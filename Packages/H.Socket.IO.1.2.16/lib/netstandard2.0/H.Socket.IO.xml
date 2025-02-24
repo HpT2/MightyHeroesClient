@@ -1,0 +1,587 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>H.Socket.IO</name>
+    </assembly>
+    <members>
+        <member name="T:H.Socket.IO.SocketIoClient">
+            <summary>
+            Socket.IO Client.
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.EngineIoClient">
+            <summary>
+            Internal Engine.IO Client.
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.Proxy">
+            <summary>
+            Using proxy.
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.Id">
+            <summary>
+            An unique identifier for the socket session.. <br/>
+            Set after the <seealso cref="E:H.Socket.IO.SocketIoClient.Connected"/> event is triggered.
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.DefaultNamespace">
+            <summary>
+            Will be sent with all messages(Unless otherwise stated). <br/>
+            Also automatically connects to it. <br/>
+            Default is <see langword="null"/>.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.#ctor">
+            <summary>
+            Creates Engine.IO client internally.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ConnectAsync(System.Uri,System.Threading.CancellationToken,System.String[])">
+            <summary>
+            It connects to the server and asynchronously waits for a connection message.
+            </summary>
+            <param name="uri"></param>
+            <param name="cancellationToken"></param>
+            <param name="namespaces"></param>
+            <exception cref="T:System.InvalidOperationException">if AfterError event occurs while wait connect message</exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+            <exception cref="T:System.OperationCanceledException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ConnectToNamespacesAsync(System.Threading.CancellationToken,System.String[])">
+            <summary>
+            It connects to selected namespaces and asynchronously waits for a connection message.
+            </summary>
+            <param name="cancellationToken"></param>
+            <param name="namespaces"></param>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ConnectToNamespaceAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            It connects to selected namespaces and asynchronously waits for a connection message.
+            </summary>
+            <param name="customNamespace"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ConnectAsync(System.Uri,System.TimeSpan,System.Threading.CancellationToken,System.String[])">
+            <summary>
+            It connects to the server and asynchronously waits for a connection message with the selected timeout. <br/>
+            Throws <see cref="T:System.OperationCanceledException"/> if the waiting time exceeded
+            </summary>
+            <param name="uri"></param>
+            <param name="timeout"></param>
+            <param name="cancellationToken"></param>
+            <param name="namespaces"></param>
+            <exception cref="T:System.InvalidOperationException">if AfterError event occurs while wait connect message</exception>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+            <exception cref="T:System.OperationCanceledException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.DisconnectAsync(System.Threading.CancellationToken)">
+            <summary>
+            Sends a disconnect message and closes the connection.
+            </summary>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.SendEventAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Sends a new raw message.
+            </summary>
+            <param name="message"></param>
+            <param name="customNamespace"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.ObjectDisposedException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.WaitEventOrErrorAsync(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)">
+            <summary>
+            Waits for the next event or error asynchronously <br/>
+            Returns <see cref="T:H.Socket.IO.SocketIoClient.EventReceivedEventArgs"/> if event was received <br/>
+            Returns <see cref="T:H.Socket.IO.SocketIoClient.ErrorReceivedEventArgs"/> if error was received <br/>
+            Returns null if no event was received and the method was canceled <br/>
+            </summary>
+            <param name="func"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.WaitEventOrErrorAsync(System.TimeSpan,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Waits for the next event or error asynchronously with specified timeout <br/>
+            Returns <see cref="T:H.Socket.IO.SocketIoClient.EventReceivedEventArgs"/> if event was received <br/>
+            Returns <see cref="T:H.Socket.IO.SocketIoClient.ErrorReceivedEventArgs"/> if error was received <br/>
+            Returns null if no event was received and the method was canceled <br/>
+            </summary>
+            <param name="timeout"></param>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.Emit(System.String,System.Object,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Sends a new event where name is the name of the event <br/>
+            the object can be <see langword="string"/> - so it will be send as simple message <br/>
+            any other will be serialized to json.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+            <param name="customNamespace"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.Off(System.String,System.String)">
+            <summary>
+            Deletes On handle.
+            </summary>
+            <param name="name"></param>
+            <param name="customNamespace"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.On``1(System.String,System.Action{``0,System.String},System.String)">
+            <summary>
+            Performs an action after receiving a specific event. <br/>
+            <paramref name="action"/>.<typeparamref name="T"/> is a json deserialized object, <br/>
+            <paramref name="action"/>.<see langword="string"/> is raw text.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="name"></param>
+            <param name="action"></param>
+            <param name="customNamespace"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.On``1(System.String,System.Action{``0},System.String)">
+            <summary>
+            Performs an action after receiving a specific event. <br/>
+            <paramref name="action"/>.<typeparamref name="T"/> is a json deserialized object.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="name"></param>
+            <param name="action"></param>
+            <param name="customNamespace"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.On(System.String,System.Action{System.String},System.String)">
+            <summary>
+            Performs an action after receiving a specific event. <br/>
+            <paramref name="action"/>.<see langword="string"/> is a raw text.
+            </summary>
+            <param name="name"></param>
+            <param name="action"></param>
+            <param name="customNamespace"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.On(System.String,System.Action,System.String)">
+            <summary>
+            Performs an action after receiving a specific event.
+            </summary>
+            <param name="name"></param>
+            <param name="action"></param>
+            <param name="customNamespace"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.Dispose">
+            <summary>
+            Disposes an object. <br/>
+            Prefer DisposeAsync if possible
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="E:H.Socket.IO.SocketIoClient.ExceptionOccurred">
+            <summary>
+            Occurs after new exception.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.SubscribeToExceptionOccurred(System.EventHandler{H.Socket.IO.SocketIoClient.ExceptionOccurredEventArgs})">
+            <summary>
+            A helper method to subscribe the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnExceptionOccurred(H.Socket.IO.SocketIoClient.ExceptionOccurredEventArgs)">
+            <summary>
+            A helper method to raise the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnExceptionOccurred(System.Exception)">
+            <summary>
+            A helper method to raise the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="T:H.Socket.IO.SocketIoClient.ExceptionOccurredEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.ExceptionOccurredEventArgs.Exception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ExceptionOccurredEventArgs.#ctor(System.Exception)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ExceptionOccurredEventArgs.Deconstruct(System.Exception@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ExceptionOccurredEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Socket.IO.SocketIoClient.Disconnected">
+            <summary>
+            Occurs after a disconnection.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.SubscribeToDisconnected(System.EventHandler{H.Socket.IO.SocketIoClient.DisconnectedEventArgs})">
+            <summary>
+            A helper method to subscribe the Disconnected event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnDisconnected(H.Socket.IO.SocketIoClient.DisconnectedEventArgs)">
+            <summary>
+            A helper method to raise the Disconnected event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnDisconnected(System.String,System.Nullable{System.Net.WebSockets.WebSocketCloseStatus})">
+            <summary>
+            A helper method to raise the Disconnected event.
+            </summary>
+        </member>
+        <member name="T:H.Socket.IO.SocketIoClient.DisconnectedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.DisconnectedEventArgs.Reason">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.DisconnectedEventArgs.Status">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.DisconnectedEventArgs.#ctor(System.String,System.Nullable{System.Net.WebSockets.WebSocketCloseStatus})">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.DisconnectedEventArgs.Deconstruct(System.String@,System.Nullable{System.Net.WebSockets.WebSocketCloseStatus}@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.DisconnectedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Socket.IO.SocketIoClient.ErrorReceived">
+            <summary>
+            Occurs after new error.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.SubscribeToErrorReceived(System.EventHandler{H.Socket.IO.SocketIoClient.ErrorReceivedEventArgs})">
+            <summary>
+            A helper method to subscribe the ErrorReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnErrorReceived(H.Socket.IO.SocketIoClient.ErrorReceivedEventArgs)">
+            <summary>
+            A helper method to raise the ErrorReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnErrorReceived(System.String,System.String)">
+            <summary>
+            A helper method to raise the ErrorReceived event.
+            </summary>
+        </member>
+        <member name="T:H.Socket.IO.SocketIoClient.ErrorReceivedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.ErrorReceivedEventArgs.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.ErrorReceivedEventArgs.Namespace">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ErrorReceivedEventArgs.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ErrorReceivedEventArgs.Deconstruct(System.String@,System.String@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ErrorReceivedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Socket.IO.SocketIoClient.Connected">
+            <summary>
+            Occurs after a successful connection to each namespace.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.SubscribeToConnected(System.EventHandler{H.Socket.IO.SocketIoClient.ConnectedEventArgs})">
+            <summary>
+            A helper method to subscribe the Connected event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnConnected(H.Socket.IO.SocketIoClient.ConnectedEventArgs)">
+            <summary>
+            A helper method to raise the Connected event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnConnected(System.String,System.String,System.Boolean)">
+            <summary>
+            A helper method to raise the Connected event.
+            </summary>
+        </member>
+        <member name="T:H.Socket.IO.SocketIoClient.ConnectedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.ConnectedEventArgs.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.ConnectedEventArgs.Namespace">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.ConnectedEventArgs.IsHandled">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ConnectedEventArgs.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ConnectedEventArgs.Deconstruct(System.String@,System.String@,System.Boolean@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.ConnectedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Socket.IO.SocketIoClient.EventReceived">
+            <summary>
+            Occurs after new event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.SubscribeToEventReceived(System.EventHandler{H.Socket.IO.SocketIoClient.EventReceivedEventArgs})">
+            <summary>
+            A helper method to subscribe the EventReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnEventReceived(H.Socket.IO.SocketIoClient.EventReceivedEventArgs)">
+            <summary>
+            A helper method to raise the EventReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnEventReceived(System.String,System.String,System.Boolean)">
+            <summary>
+            A helper method to raise the EventReceived event.
+            </summary>
+        </member>
+        <member name="T:H.Socket.IO.SocketIoClient.EventReceivedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.EventReceivedEventArgs.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.EventReceivedEventArgs.Namespace">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.EventReceivedEventArgs.IsHandled">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.EventReceivedEventArgs.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.EventReceivedEventArgs.Deconstruct(System.String@,System.String@,System.Boolean@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.EventReceivedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Socket.IO.SocketIoClient.HandledEventReceived">
+            <summary>
+            Occurs after new handled event(captured by any On).
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.SubscribeToHandledEventReceived(System.EventHandler{H.Socket.IO.SocketIoClient.HandledEventReceivedEventArgs})">
+            <summary>
+            A helper method to subscribe the HandledEventReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnHandledEventReceived(H.Socket.IO.SocketIoClient.HandledEventReceivedEventArgs)">
+            <summary>
+            A helper method to raise the HandledEventReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnHandledEventReceived(System.String,System.String,System.Boolean)">
+            <summary>
+            A helper method to raise the HandledEventReceived event.
+            </summary>
+        </member>
+        <member name="T:H.Socket.IO.SocketIoClient.HandledEventReceivedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.HandledEventReceivedEventArgs.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.HandledEventReceivedEventArgs.Namespace">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.HandledEventReceivedEventArgs.IsHandled">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.HandledEventReceivedEventArgs.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.HandledEventReceivedEventArgs.Deconstruct(System.String@,System.String@,System.Boolean@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.HandledEventReceivedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.Socket.IO.SocketIoClient.UnhandledEventReceived">
+            <summary>
+            Occurs after new unhandled event(not captured by any On).
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.SubscribeToUnhandledEventReceived(System.EventHandler{H.Socket.IO.SocketIoClient.UnhandledEventReceivedEventArgs})">
+            <summary>
+            A helper method to subscribe the UnhandledEventReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnUnhandledEventReceived(H.Socket.IO.SocketIoClient.UnhandledEventReceivedEventArgs)">
+            <summary>
+            A helper method to raise the UnhandledEventReceived event.
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.OnUnhandledEventReceived(System.String,System.String,System.Boolean)">
+            <summary>
+            A helper method to raise the UnhandledEventReceived event.
+            </summary>
+        </member>
+        <member name="T:H.Socket.IO.SocketIoClient.UnhandledEventReceivedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.UnhandledEventReceivedEventArgs.Value">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.UnhandledEventReceivedEventArgs.Namespace">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.Socket.IO.SocketIoClient.UnhandledEventReceivedEventArgs.IsHandled">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.UnhandledEventReceivedEventArgs.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.UnhandledEventReceivedEventArgs.Deconstruct(System.String@,System.String@,System.Boolean@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.SocketIoClient.UnhandledEventReceivedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:H.Socket.IO.Utilities.SocketIoUtilities">
+            <summary>
+            Utilities for <see cref="T:H.Socket.IO.SocketIoClient"/>
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.Utilities.SocketIoUtilities.GetJsonArrayValues(System.String)">
+            <summary>
+            Return values from strings like ["message","value"] or ["message",{}]
+            </summary>
+            <param name="text"></param>
+            <returns></returns>
+        </member>
+        <member name="T:H.Socket.IO.Utilities.StringExtensions">
+            <summary>
+            Extensions that work with <see langword="string"/>
+            </summary>
+        </member>
+        <member name="M:H.Socket.IO.Utilities.StringExtensions.SplitByIndexes(System.String,System.Int32[])">
+            <summary>
+            Splits by indexes
+            </summary>
+            <param name="text"></param>
+            <param name="indexes"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

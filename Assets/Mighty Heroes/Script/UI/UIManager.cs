@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Button HideDebugBtn;
 
+    [SerializeField]
+    private List<BaseUI> UIList = new List<BaseUI>();
+
     private void Awake()
     {
         if(!Instance)
@@ -45,6 +48,11 @@ public class UIManager : MonoBehaviour
         {
             DebugPanel.SetActive(false);
         });
+
+        for(int i = 0; i < UIList.Count; i++)
+        {
+            UIList[i].Init();
+        }
     }
 
     public static void AddDebugMessage(string msg, LogVerbose verbose = LogVerbose.Log, bool LogInConsole = true)
@@ -73,6 +81,16 @@ public class UIManager : MonoBehaviour
 
         Canvas.ForceUpdateCanvases();
         Instance.DebugPanel.GetComponent<ScrollRect>().verticalNormalizedPosition = 0f;
+    }
+
+    public T GetUIByType<T>() where T : BaseUI
+    {
+        foreach(var UI in UIList)
+        {
+            if (UI.GetType() == typeof(T))
+                return (T)UI;
+        }
+        return null;
     }
 }
 

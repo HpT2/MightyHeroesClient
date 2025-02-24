@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Login : MonoBehaviour
+public class Login : BaseUI
 {
     [SerializeField]
     private Button LoginBtn;
@@ -34,9 +34,10 @@ public class Login : MonoBehaviour
 
     public static OnLoginSuccess_Delegate OnLoginSuccessEvent;
 
-    // Start is called before the first frame update
-    void Start()
+    public override void Init()
     {
+        base.Init();
+
         LoginBtn.onClick.AddListener(OnLoginBtnCliecked);
         RegisterBtn.onClick.AddListener(OnRegisterBtnClicked);
         PassworldVisibleToggleBtn.onClick.AddListener(OnPasswordVisibleToggleClicked);
@@ -44,8 +45,10 @@ public class Login : MonoBehaviour
         SocketEvent.OnLoginResponse += OnLoginResponse;
     }
 
-    private void OnDestroy()
+    public override void Deinit()
     {
+        base.Deinit();
+
         LoginBtn.onClick.RemoveAllListeners();
         RegisterBtn.onClick.RemoveAllListeners();
         PassworldVisibleToggleBtn.onClick.RemoveAllListeners();
@@ -84,6 +87,7 @@ public class Login : MonoBehaviour
     void OnRegisterBtnClicked()
     {
         //Popup register UI
+        UIManager.AddDebugMessage("Login.OnRegisterBtnClicked");
     }
 
     void OnPasswordVisibleToggleClicked()

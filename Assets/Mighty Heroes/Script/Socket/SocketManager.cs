@@ -59,7 +59,7 @@ public class SocketManager : MonoBehaviour
         Socket.OnUnityThread(SocketEventName.EVENT_MODIFY_NICKNAME, (SocketIOClient.SocketIOResponse response) =>
         {
             JObject data = JObject.Parse(response.GetValue<object>().ToString());
-            GameManager.Instance.OnNickNameModifiedEvent?.Invoke(data.Value<string>("NickName"));
+            GameManager.OnNickNameModifiedEvent?.Invoke(data.Value<string>("NickName"));   
         });
 
         Socket.Connect();

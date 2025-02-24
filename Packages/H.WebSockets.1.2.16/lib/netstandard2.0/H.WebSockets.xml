@@ -1,0 +1,619 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>H.WebSockets</name>
+    </assembly>
+    <members>
+        <member name="T:H.WebSockets.Utilities.EventExtensions">
+            <summary>
+            Extensions that work with <see langword="event"/> <br/>
+            <![CDATA[Version: 1.0.0.4]]> <br/>
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.EventExtensions.WaitEventAsync``1(System.Object,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously expects <see langword="event"/> until they occur or until canceled <br/>
+            <![CDATA[Dependency: WaitObject]]> <br/>
+            </summary>
+            <param name="value"></param>
+            <param name="eventName"></param>
+            <param name="cancellationToken"></param>
+            <typeparam name="T">EventArgs type</typeparam>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.OperationCanceledException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.Utilities.EventExtensions.WaitEventAsync``1(System.Object,System.Func{System.Threading.Tasks.Task},System.String,System.Threading.CancellationToken)">
+            <summary>
+            Asynchronously expects <see langword="event"/> until they occur or until canceled <br/>
+            <![CDATA[Dependency: WaitEventAsync(this object value, string eventName, CancellationToken cancellationToken = default)]]> <br/>
+            </summary>
+            <param name="value"></param>
+            <param name="func"></param>
+            <param name="eventName"></param>
+            <param name="cancellationToken"></param>
+            <typeparam name="T">EventArgs type</typeparam>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.OperationCanceledException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.Utilities.EventExtensions.WaitAllEventsAsync``1(System.Object,System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken,System.String[])">
+            <summary>
+            Asynchronously expects all <see langword="event"/>'s until they occur or until canceled <br/>
+            This method DOES NOT throw an exception after canceling with a CancellationToken, but returns control and current results instantly <br/>
+            <![CDATA[Dependency: WaitEventAsync(this object value, string eventName, CancellationToken cancellationToken = default)]]> <br/>
+            </summary>
+            <param name="value"></param>
+            <param name="func"></param>
+            <param name="cancellationToken"></param>
+            <param name="eventNames"></param>
+            <typeparam name="T">Base type for all events</typeparam>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.Utilities.EventExtensions.WaitAnyEventAsync``1(System.Object,System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken,System.String[])">
+            <summary>
+            Asynchronously expects any <see langword="event"/> until it occurs or until canceled <br/>
+            This method DOES NOT throw an exception after canceling with a CancellationToken, but returns control and current results instantly <br/>
+            <![CDATA[Dependency: WaitEventAsync(this object value, string eventName, CancellationToken cancellationToken = default)]]> <br/>
+            </summary>
+            <param name="value"></param>
+            <param name="func"></param>
+            <param name="cancellationToken"></param>
+            <param name="eventNames"></param>
+            <typeparam name="T">Base type for all events</typeparam>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
+            <exception cref="T:System.InvalidOperationException"></exception>
+            <returns></returns>
+        </member>
+        <member name="T:H.WebSockets.Utilities.TaskWorker">
+            <summary>
+            A class designed to run code using <see cref="P:H.WebSockets.Utilities.TaskWorker.Task"/> with <see cref="F:System.Threading.Tasks.TaskCreationOptions.LongRunning"/> <br/>
+            and supporting automatic cancellation after Dispose <br/>
+            <![CDATA[Version: 1.0.0.8]]> <br/>
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.Utilities.TaskWorker.IsDisposed">
+            <summary>
+            Is Disposed
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.Utilities.TaskWorker.Task">
+            <summary>
+            Internal task
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.Utilities.TaskWorker.CancellationTokenSource">
+            <summary>
+            Internal task CancellationTokenSource
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.Start(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.Task})">
+            <summary>
+            Starts <see cref="T:H.WebSockets.Utilities.TaskWorker"/>
+            </summary>
+            <param name="func"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.Start(System.Action{System.Threading.CancellationToken})">
+            <summary>
+            Starts <see cref="T:H.WebSockets.Utilities.TaskWorker"/>
+            </summary>
+            <param name="action"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.Dispose">
+            <summary>
+            Cancel task(if it's not completed) and dispose internal resources <br/>
+            Prefer DisposeAsync if possible <br/>
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.Utilities.TaskWorker.Canceled">
+            <summary>
+            When canceled
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.SubscribeToCanceled(System.EventHandler)">
+            <summary>
+            A helper method to subscribe the Canceled event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.OnCanceled">
+            <summary>
+            A helper method to raise the Canceled event.
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.Utilities.TaskWorker.Completed">
+            <summary>
+            When completed(with any result)
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.SubscribeToCompleted(System.EventHandler)">
+            <summary>
+            A helper method to subscribe the Completed event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.OnCompleted">
+            <summary>
+            A helper method to raise the Completed event.
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.Utilities.TaskWorker.SuccessfulCompleted">
+            <summary>
+            When completed(without exceptions and cancellations)
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.SubscribeToSuccessfulCompleted(System.EventHandler)">
+            <summary>
+            A helper method to subscribe the SuccessfulCompleted event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.OnSuccessfulCompleted">
+            <summary>
+            A helper method to raise the SuccessfulCompleted event.
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.Utilities.TaskWorker.SuccessfulCompletedOrCanceled">
+            <summary>
+            When completed(without exceptions)
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.SubscribeToSuccessfulCompletedOrCanceled(System.EventHandler{H.WebSockets.Utilities.TaskWorker.SuccessfulCompletedOrCanceledEventArgs})">
+            <summary>
+            A helper method to subscribe the SuccessfulCompletedOrCanceled event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.OnSuccessfulCompletedOrCanceled(H.WebSockets.Utilities.TaskWorker.SuccessfulCompletedOrCanceledEventArgs)">
+            <summary>
+            A helper method to raise the SuccessfulCompletedOrCanceled event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.OnSuccessfulCompletedOrCanceled(System.OperationCanceledException)">
+            <summary>
+            A helper method to raise the SuccessfulCompletedOrCanceled event.
+            </summary>
+        </member>
+        <member name="T:H.WebSockets.Utilities.TaskWorker.SuccessfulCompletedOrCanceledEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.Utilities.TaskWorker.SuccessfulCompletedOrCanceledEventArgs.Exception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.SuccessfulCompletedOrCanceledEventArgs.#ctor(System.OperationCanceledException)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.SuccessfulCompletedOrCanceledEventArgs.Deconstruct(System.OperationCanceledException@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.SuccessfulCompletedOrCanceledEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.Utilities.TaskWorker.FailedOrCanceled">
+            <summary>
+            When canceled or exceptions
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.SubscribeToFailedOrCanceled(System.EventHandler{H.WebSockets.Utilities.TaskWorker.FailedOrCanceledEventArgs})">
+            <summary>
+            A helper method to subscribe the FailedOrCanceled event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.OnFailedOrCanceled(H.WebSockets.Utilities.TaskWorker.FailedOrCanceledEventArgs)">
+            <summary>
+            A helper method to raise the FailedOrCanceled event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.OnFailedOrCanceled(System.Exception)">
+            <summary>
+            A helper method to raise the FailedOrCanceled event.
+            </summary>
+        </member>
+        <member name="T:H.WebSockets.Utilities.TaskWorker.FailedOrCanceledEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.Utilities.TaskWorker.FailedOrCanceledEventArgs.Exception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.FailedOrCanceledEventArgs.#ctor(System.Exception)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.FailedOrCanceledEventArgs.Deconstruct(System.Exception@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.FailedOrCanceledEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.Utilities.TaskWorker.ExceptionOccurred">
+            <summary>
+            When a exception occurs(without OperationCanceledException's)
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.SubscribeToExceptionOccurred(System.EventHandler{H.WebSockets.Utilities.TaskWorker.ExceptionOccurredEventArgs})">
+            <summary>
+            A helper method to subscribe the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.OnExceptionOccurred(H.WebSockets.Utilities.TaskWorker.ExceptionOccurredEventArgs)">
+            <summary>
+            A helper method to raise the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.OnExceptionOccurred(System.Exception)">
+            <summary>
+            A helper method to raise the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="T:H.WebSockets.Utilities.TaskWorker.ExceptionOccurredEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.Utilities.TaskWorker.ExceptionOccurredEventArgs.Exception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.ExceptionOccurredEventArgs.#ctor(System.Exception)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.ExceptionOccurredEventArgs.Deconstruct(System.Exception@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.Utilities.TaskWorker.ExceptionOccurredEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:H.WebSockets.WebSocketClient">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.WebSocketClient.Socket">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.WebSocketClient.LastConnectUri">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.WebSocketClient.IsConnected">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.WebSocketClient.Proxy">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.SetHeader(System.String,System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.ConnectAsync(System.Uri,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="uri"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.ConnectAsync(System.Uri,System.TimeSpan,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="uri"></param>
+            <param name="timeout"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.DisconnectAsync(System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.SendTextAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.SendBytesAsync(System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+            
+            </summary>
+            <param name="bytes"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.WaitTextAsync(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)">
+            <summary>
+            Waits for the next text asynchronously <br/>
+            Returns DataEventArgs if text was received <br/>
+            Throws <see cref="T:System.OperationCanceledException"/> if method was canceled <br/>
+            </summary>
+            <param name="func"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.OperationCanceledException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.WaitTextAsync(System.TimeSpan,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Waits for the next text asynchronously with specified timeout <br/>
+            Returns DataEventArgs if text was received <br/>
+            Throws <see cref="T:System.OperationCanceledException"/> if method was canceled <br/>
+            </summary>
+            <param name="timeout"></param>
+            <param name="func"></param>
+            <exception cref="T:System.OperationCanceledException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.WaitBytesAsync(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)">
+            <summary>
+            Waits for the next bytes asynchronously <br/>
+            Returns DataEventArgs if bytes was received <br/>
+            Throws <see cref="T:System.OperationCanceledException"/> if method was canceled <br/>
+            </summary>
+            <param name="func"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:System.OperationCanceledException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.WaitBytesAsync(System.TimeSpan,System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Waits for the next bytes asynchronously with specified timeout <br/>
+            Returns DataEventArgs if bytes was received <br/>
+            Throws <see cref="T:System.OperationCanceledException"/> if method was canceled <br/>
+            </summary>
+            <param name="timeout"></param>
+            <param name="func"></param>
+            <exception cref="T:System.OperationCanceledException"></exception>
+            <returns></returns>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.Dispose">
+            <summary>
+            Cancel receive task(if it's not completed) and dispose internal resources
+            Prefer DisposeAsync if possible
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.WebSocketClient.Connected">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.SubscribeToConnected(System.EventHandler)">
+            <summary>
+            A helper method to subscribe the Connected event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.OnConnected">
+            <summary>
+            A helper method to raise the Connected event.
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.WebSocketClient.TextReceived">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.SubscribeToTextReceived(System.EventHandler{H.WebSockets.WebSocketClient.TextReceivedEventArgs})">
+            <summary>
+            A helper method to subscribe the TextReceived event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.OnTextReceived(H.WebSockets.WebSocketClient.TextReceivedEventArgs)">
+            <summary>
+            A helper method to raise the TextReceived event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.OnTextReceived(System.String)">
+            <summary>
+            A helper method to raise the TextReceived event.
+            </summary>
+        </member>
+        <member name="T:H.WebSockets.WebSocketClient.TextReceivedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.WebSocketClient.TextReceivedEventArgs.Text">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.TextReceivedEventArgs.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.TextReceivedEventArgs.Deconstruct(System.String@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.TextReceivedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.WebSocketClient.BytesReceived">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.SubscribeToBytesReceived(System.EventHandler{H.WebSockets.WebSocketClient.BytesReceivedEventArgs})">
+            <summary>
+            A helper method to subscribe the BytesReceived event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.OnBytesReceived(H.WebSockets.WebSocketClient.BytesReceivedEventArgs)">
+            <summary>
+            A helper method to raise the BytesReceived event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.OnBytesReceived(System.Collections.Generic.IReadOnlyCollection{System.Byte})">
+            <summary>
+            A helper method to raise the BytesReceived event.
+            </summary>
+        </member>
+        <member name="T:H.WebSockets.WebSocketClient.BytesReceivedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.WebSocketClient.BytesReceivedEventArgs.Bytes">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.BytesReceivedEventArgs.#ctor(System.Collections.Generic.IReadOnlyCollection{System.Byte})">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.BytesReceivedEventArgs.Deconstruct(System.Collections.Generic.IReadOnlyCollection{System.Byte}@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.BytesReceivedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.WebSocketClient.ExceptionOccurred">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.SubscribeToExceptionOccurred(System.EventHandler{H.WebSockets.WebSocketClient.ExceptionOccurredEventArgs})">
+            <summary>
+            A helper method to subscribe the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.OnExceptionOccurred(H.WebSockets.WebSocketClient.ExceptionOccurredEventArgs)">
+            <summary>
+            A helper method to raise the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.OnExceptionOccurred(System.Exception)">
+            <summary>
+            A helper method to raise the ExceptionOccurred event.
+            </summary>
+        </member>
+        <member name="T:H.WebSockets.WebSocketClient.ExceptionOccurredEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.WebSocketClient.ExceptionOccurredEventArgs.Exception">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.ExceptionOccurredEventArgs.#ctor(System.Exception)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.ExceptionOccurredEventArgs.Deconstruct(System.Exception@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.ExceptionOccurredEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="E:H.WebSockets.WebSocketClient.Disconnected">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.SubscribeToDisconnected(System.EventHandler{H.WebSockets.WebSocketClient.DisconnectedEventArgs})">
+            <summary>
+            A helper method to subscribe the Disconnected event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.OnDisconnected(H.WebSockets.WebSocketClient.DisconnectedEventArgs)">
+            <summary>
+            A helper method to raise the Disconnected event.
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.OnDisconnected(System.String,System.Nullable{System.Net.WebSockets.WebSocketCloseStatus})">
+            <summary>
+            A helper method to raise the Disconnected event.
+            </summary>
+        </member>
+        <member name="T:H.WebSockets.WebSocketClient.DisconnectedEventArgs">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.WebSocketClient.DisconnectedEventArgs.Reason">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:H.WebSockets.WebSocketClient.DisconnectedEventArgs.Status">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.DisconnectedEventArgs.#ctor(System.String,System.Nullable{System.Net.WebSockets.WebSocketCloseStatus})">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.DisconnectedEventArgs.Deconstruct(System.String@,System.Nullable{System.Net.WebSockets.WebSocketCloseStatus}@)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:H.WebSockets.WebSocketClient.DisconnectedEventArgs.ToString">
+            <summary>
+            
+            </summary>
+        </member>
+    </members>
+</doc>

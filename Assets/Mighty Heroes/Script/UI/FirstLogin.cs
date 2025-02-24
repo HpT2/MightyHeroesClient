@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FirstLogin : MonoBehaviour
+public class FirstLogin : BaseUI
 {
     [SerializeField]
     private Button ConfirmBtn;
@@ -13,11 +13,13 @@ public class FirstLogin : MonoBehaviour
     [SerializeField]
     private TMP_InputField NickNameInput;
 
-    private void Awake()
+    public override void Init()
     {
+        base.Init();
+
         ConfirmBtn.onClick.AddListener(() =>
         {
-            if(NickNameInput.text == "")
+            if (NickNameInput.text == "")
             {
                 return;
             }
@@ -28,19 +30,29 @@ public class FirstLogin : MonoBehaviour
             ConfirmBtn.interactable = false;
             NickNameInput.interactable = false;
         });
+
+        Login.OnLoginSuccessEvent += OnLoginSuccess;
     }
 
-    private void Start()
+    public override void Deinit()
     {
-        if(GameManager.Instance.ThisUserInfo.IsFirstLogin)
+        base.Deinit();
+        ConfirmBtn.onClick.RemoveAllListeners();
+    }
+
+    void OnLoginSuccess(UserInfo info)
+    {
+        if (info.IsFirstLogin)
         {
-            GameManager.Instance.OnNickNameModifiedEvent += OnFirstNickNameCreated;
+            GameManager.OnNickNameModifiedEvent += OnFirstNickNameCreated;
         }
     }
 
     void OnFirstNickNameCreated(string NickName)
     {
-        GameManager.Instance.OnNickNameModifiedEvent -= OnFirstNickNameCreated;
+        GameManager.OnNickNameModifiedEvent -= OnFirstNickNameCreated;
+        Login.OnLoginSuccessEvent -= OnLoginSuccess;
+
         gameObject.SetActive(false);
 
         GameManager.Instance.ThisUserInfo.IsFirstLogin = false;
