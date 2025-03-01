@@ -11,7 +11,7 @@ public enum GameState
     Playing,
 }
 
-public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public static GameManager Instance;
 
@@ -41,8 +41,12 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
 
         CurrentGameState = GameState.LoggingIn;
 
-        Login.OnLoginSuccessEvent += SaveUserInfo;
         OnNickNameModifiedEvent += OnNickNameModifiedCallback;
+
+        OnEnterDefaultRoomEvent += () =>
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        };
 
         if(Application.internetReachability == NetworkReachability.NotReachable)
         {
@@ -50,27 +54,24 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
             UIManager.AddDebugMessage("Photon running in offline mode");
             //Offline mode will not be available in release
         }
-        else
-        {
-            PhotonNetwork.ConnectUsingSettings();
-        }
     }
 
     private void OnDestroy()
     {
-        Login.OnLoginSuccessEvent -= SaveUserInfo;
         OnNickNameModifiedEvent -= OnNickNameModifiedCallback;
     }
 
-    void SaveUserInfo(UserInfo userInfo)
+    public void SaveUserInfo(UserInfo userInfo)
     {
         ThisUserInfo = userInfo;
+        PhotonNetwork.NickName = userInfo.NickName;
     }
 
     //Begin Photon interface
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
+        //Temp
         UIManager.AddDebugMessage($"GameManager.OnConnectedToMaster: Connected to Photon Server", LogVerbose.Warning);
         Photon.Realtime.RoomOptions roomOptions = new Photon.Realtime.RoomOptions();
         PhotonNetwork.JoinOrCreateRoom("Test", roomOptions, Photon.Realtime.TypedLobby.Default);
@@ -80,18 +81,6 @@ public class GameManager : MonoBehaviourPunCallbacks, IPunObservable
     {
         base.OnJoinedRoom();
         PhotonNetwork.Instantiate("Bat", Vector3.zero, Quaternion.identity);
-    }
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        if(stream.IsWriting)
-        {
-            stream.SendNext(ThisUserInfo);
-        }
-        else
-        {
-            ThisUserInfo = (UserInfo)stream.ReceiveNext();
-        }
     }
     //End Photon Interface
 

@@ -19,6 +19,9 @@ public class InRoom : BaseUI
     [SerializeField]
     private TextMeshProUGUI CoinValue;
 
+    [SerializeField]
+    private GameObject RoomList;
+
     public override void Init()
     {
         base.Init();
@@ -34,7 +37,7 @@ public class InRoom : BaseUI
 
         RoomBtn.onClick.AddListener(() =>
         {
-            UIManager.AddDebugMessage("Room Btn Clicked");
+            RoomList.SetActive(true);
         });
 
         BagBtn.onClick.AddListener(() =>

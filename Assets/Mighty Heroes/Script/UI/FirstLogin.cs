@@ -44,6 +44,7 @@ public class FirstLogin : BaseUI
     {
         if (info.IsFirstLogin)
         {
+            gameObject.SetActive(true);
             GameManager.OnNickNameModifiedEvent += OnFirstNickNameCreated;
         }
     }

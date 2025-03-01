@@ -4,16 +4,18 @@ using System;
 using UnityEngine;
 
 public delegate void SocketEvent_OnLoginResponse(JObject data);
-
+public delegate void OnGetRoom_Delegate(JObject data);
 public class SocketEventName
 {
     public static string EVENT_LOGIN = "login";
     public static string EVENT_MODIFY_NICKNAME = "modify nickname";
+    public static string EVENT_GET_ROOM_LIST = "get room list";
 }
 
 public class SocketEvent
 {
     public static SocketEvent_OnLoginResponse OnLoginResponse;
+    public static OnGetRoom_Delegate OnGetRoom;
 }
 
 public class SocketManager : MonoBehaviour 
@@ -60,6 +62,11 @@ public class SocketManager : MonoBehaviour
         {
             JObject data = JObject.Parse(response.GetValue<object>().ToString());
             GameManager.OnNickNameModifiedEvent?.Invoke(data.Value<string>("NickName"));   
+        });
+
+        Socket.OnUnityThread(SocketEventName.EVENT_GET_ROOM_LIST, (SocketIOClient.SocketIOResponse response) =>
+        {
+            JObject data = JObject.Parse(response.GetValue<object>().ToString());
         });
 
         Socket.Connect();

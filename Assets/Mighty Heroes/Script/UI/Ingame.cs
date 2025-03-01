@@ -23,7 +23,9 @@ public class Ingame : BaseUI
     [SerializeField]
     private List<Button> SkillBtnList;
 
-    private void Awake()
+    [SerializeField]
+    private List<GameObject> GameInput;
+    public override void Init()
     {
         Login.OnLoginSuccessEvent += OnLoginSuccess;
         MainSkillBtn.onClick.AddListener(() =>
@@ -42,16 +44,27 @@ public class Ingame : BaseUI
             i++;
         }
 
+        GameManager.OnEnterDefaultRoomEvent += EnableInput;
     }
 
-    private void OnDestroy()
+    public override void Deinit()
     {
         Login.OnLoginSuccessEvent -= OnLoginSuccess;
+        GameManager.OnEnterDefaultRoomEvent -= EnableInput;
+    }
+    
+    void EnableInput()
+    {
+        foreach (var Input in GameInput)
+        {
+            Input.SetActive(true);
+        }
     }
 
     void OnLoginSuccess(UserInfo userInfo)
     {
-        PhotonNetwork.NickName = userInfo.NickName;
+        GameManager.Instance.SaveUserInfo(userInfo);
+        gameObject.SetActive(true);
         if (userInfo.IsFirstLogin)
         {
             FirstLoginUI.SetActive(true);
