@@ -9,7 +9,20 @@ public class Character : MonoBehaviourPun, IPunObservable
     public PlayerStat BasePlayerStat;
     public PlayerStat IngamePlayerStat;
 
+    public Animator AnimController;
+
     public CharacterData CharacterData;
+    public bool IsLocalControl;
+    public bool IsAI;
+    public bool OfflineTest;
+    public Rigidbody Rigidbody;
+
+    public static Character LocalChar;
+
+    private Transform MainCamTrans;
+    private bool FirstFrame;
+
+    private bool IsCoolingDownSkill = false;
 
     public Character() : base()
     {
@@ -18,27 +31,52 @@ public class Character : MonoBehaviourPun, IPunObservable
         Controller = new PlayerControllerComponent(this);
     }
 
-    private void Start()
+    protected virtual void Start()
     {
-        if(photonView && photonView.IsMine)
+        if (!IsAI && ((photonView.IsMine) || IsLocalControl))
         {
             Controller.BindInput();
-            //temp
-            Camera.main.transform.SetParent(transform, false);
-            Camera.main.transform.position = new Vector3(0, 2, -2);
+
+            MainCamTrans = Camera.main.transform;
+            MainCamTrans.position = new Vector3(transform.position.x, 10, transform.position.z - 8);
+            MainCamTrans.rotation = Quaternion.Euler(45, 0, 0);
+
+            GameManager.OnCharacterSpawned?.Invoke();
+            Ingame IngameUI = UIManager.Instance.GetUIByType<Ingame>();
+
+            IngameUI.OnMainSkillClicked += OnMainSkillTrigger;
+
+            Rigidbody = gameObject.AddComponent<Rigidbody>();
+            Rigidbody.freezeRotation = true;
+            Rigidbody.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            Rigidbody.useGravity = false;
+
+            if(IsLocalControl)
+            {
+                LocalChar = this;
+            }
+        }
+        else
+        {
+            FirstFrame = true;
         }
 
         BasePlayerStat.OnStatChange += Controller.OnStatChange;
         IngamePlayerStat.OnStatChange += Controller.OnStatChange;
+        AnimController = GetComponent<Animator>();
+        //Controller.CachedTransform(transform);
 
         InitCharacterWithData();
     }
 
     private void OnDestroy()
     {
-        if(photonView.IsMine)
+        if(!IsAI && (photonView.IsMine || IsLocalControl))
         {
             Controller.UnbindInput();
+
+            Ingame IngameUI = UIManager.Instance.GetUIByType<Ingame>();
+            IngameUI.OnMainSkillClicked -= OnMainSkillTrigger;
         }
         BasePlayerStat.OnStatChange -= Controller.OnStatChange;
         IngamePlayerStat.OnStatChange -= Controller.OnStatChange;
@@ -54,28 +92,53 @@ public class Character : MonoBehaviourPun, IPunObservable
         }
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         Controller.Update();
     }
 
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    private void LateUpdate()
+    {
+        if (!IsAI && (photonView.IsMine || IsLocalControl))
+        {
+            MainCamTrans.position = new Vector3(transform.position.x, 10, transform.position.z - 8);
+        }
+    }
+
+    public virtual void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
             stream.SendNext(Controller.MoveDirection);
             stream.SendNext(Controller.MoveSpeed);
+
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
         }
         else
         {
             Controller.MoveDirection = (Vector3)stream.ReceiveNext();
             Controller.MoveSpeed = (float)stream.ReceiveNext();
+            Controller.TargetPosition = (Vector3)stream.ReceiveNext() + Controller.MoveDirection * Controller.MoveSpeed * Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+            Controller.TargetRotation = (Quaternion)stream.ReceiveNext();
+            Controller.UseExtrapolate = false;
+
+            if(FirstFrame)
+            {
+                FirstFrame = false;
+                transform.position = Controller.TargetPosition;
+                transform.rotation = Controller.TargetRotation;
+            }
+
+            //transform.position = (Vector3)stream.ReceiveNext();
+            //transform.rotation = (Quaternion)stream.ReceiveNext();
+            //transform.position = Vector3.Lerp(transform.position, (Vector3)stream.ReceiveNext(), Time.deltaTime * Controller.MoveSpeed);
         }
     }
 
     public float GetTotalStat(StatName Name)
     {
-        if(GameManager.Instance.GetCurrentGameState() == GameState.Playing)
+        if(false) // check game playing
         {
             return IngamePlayerStat.GetTotalStat(Name);
         }
@@ -83,5 +146,36 @@ public class Character : MonoBehaviourPun, IPunObservable
         {
             return BasePlayerStat.GetTotalStat(Name);
         }
+    }
+
+    public void OnMainSkillTrigger()
+    {
+        if (IsCoolingDownSkill)
+        {
+            UIManager.AddDebugMessage("Cannot activate skill, cooldown not complete", LogVerbose.Warning);
+            return;
+        }
+
+        if (IsLocalControl || OfflineTest)
+        {
+            OnMainSkillTriggerRPC();
+        }
+        else
+        {
+            photonView.RPC("OnMainSkillTriggerRPC", RpcTarget.All);
+        }
+    }
+
+    [PunRPC]
+    public void OnMainSkillTriggerRPC()
+    {
+        CharacterData.CharacterSkill.ActivateSkill(this);
+    }
+
+    public IEnumerator StartCooldown()
+    {
+        IsCoolingDownSkill = true;
+        yield return new WaitForSeconds(CharacterData.CharacterSkill.CooldownTime);
+        IsCoolingDownSkill = false;
     }
 }

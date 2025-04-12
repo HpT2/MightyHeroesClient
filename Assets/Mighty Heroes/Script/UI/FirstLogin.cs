@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 public class FirstLogin : BaseUI
 {
@@ -24,14 +25,18 @@ public class FirstLogin : BaseUI
                 return;
             }
 
-            JObject Message = new JObject();
-            Message.Add("NickName", NickNameInput.text);
-            SocketManager.Instance.EmitMessage(SocketEventName.EVENT_MODIFY_NICKNAME, Message.ToString());
+            WWWForm Form = new WWWForm();
+            Form.AddField(Constant.NICK_NAME, NickNameInput.text);
+            Form.AddField(Constant.PLAYER_USERNAME, GameManager.Instance.ThisUserInfo.UserName);
+
+            StartCoroutine(WebServiceAPI.PostRequest($"{URL.SERVICES_URL}/NameChange.php", Form, OnNameChangeCallback));
+
             ConfirmBtn.interactable = false;
             NickNameInput.interactable = false;
         });
 
         Login.OnLoginSuccessEvent += OnLoginSuccess;
+        GameManager.OnNickNameModifiedEvent += OnFirstNickNameCreated;
     }
 
     public override void Deinit()
@@ -49,6 +54,21 @@ public class FirstLogin : BaseUI
         }
     }
 
+    void OnNameChangeCallback(string response)
+    {
+        JObject data = JObject.Parse(response);
+        string status = data[Constant.RESPONSE_STATUS]?.Value<string>();
+        if (status == "SUCCESS")
+        {
+            string NewNickName = data[Constant.NICK_NAME]?.Value<string>();
+            GameManager.OnNickNameModifiedEvent?.Invoke(NewNickName);
+        }
+        else
+        {
+            UIManager.AddDebugMessage(data[Constant.FAILED_REASON]?.Value<string>(), LogVerbose.Error);
+        }
+    }
+
     void OnFirstNickNameCreated(string NickName)
     {
         GameManager.OnNickNameModifiedEvent -= OnFirstNickNameCreated;
@@ -57,7 +77,6 @@ public class FirstLogin : BaseUI
         gameObject.SetActive(false);
 
         GameManager.Instance.ThisUserInfo.IsFirstLogin = false;
-        GameManager.Instance.ChangeState(GameState.InDefaultRoom);
 
         UIManager.AddDebugMessage($"FirstLogin.OnFirstNickNameCreated: {NickName}");
     }

@@ -1,14 +1,14 @@
 using Newtonsoft.Json.Linq;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Realtime;
 
-public class RoomList : MonoBehaviour
+public class RoomList : MonoBehaviourPunCallbacks
 {
-    public static OnGetRoom_Delegate GetRoomEvent;
-
     [SerializeField]
     private GameObject RoomPrefab;
 
@@ -27,18 +27,13 @@ public class RoomList : MonoBehaviour
     [SerializeField]
     private ScrollRect RoomListContent;
 
-    private void Start()
-    {
-        SocketEvent.OnGetRoom += OnGetRoom;
-    }
+    [SerializeField]
+    private GameObject RoomCreatePanel;
 
-    private void OnGetRoom(JObject data)
+    public override void OnEnable()
     {
-        //Add data to room list
-    }
+        base.OnEnable();
 
-    private void OnEnable()
-    {
         CloseBtn.onClick.AddListener(() =>
         {
             gameObject.SetActive(false);
@@ -46,7 +41,7 @@ public class RoomList : MonoBehaviour
 
         CreateBtn.onClick.AddListener(() =>
         {
-            UIManager.AddDebugMessage("Create room btn", LogVerbose.Warning);
+            RoomCreatePanel.SetActive(true);
         });
 
         FindBtn.onClick.AddListener(() =>
@@ -54,22 +49,49 @@ public class RoomList : MonoBehaviour
             UIManager.AddDebugMessage("Find room : " + RoomNameInput.text, LogVerbose.Warning);
         });
 
-        //get new room
-        JObject Message = new JObject();
-        SocketManager.Instance.EmitMessage(SocketEventName.EVENT_GET_ROOM_LIST, Message.ToString());
+        TypedLobby typedLobby = new TypedLobby("Mighty Heroes", LobbyType.SqlLobby);
+        PhotonNetwork.GetCustomRoomList(typedLobby, "1=1");
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
         CloseBtn.onClick.RemoveAllListeners();
         CreateBtn.onClick.RemoveAllListeners();
         FindBtn.onClick.RemoveAllListeners();
 
-        //Clear old room
+        base.OnDisable();
+    }
+
+    void ClearRoom()
+    {
         for (int i = RoomListContent.content.childCount - 1; i >= 0; i--)
         {
             Transform child = RoomListContent.content.GetChild(i);
             Destroy(child.gameObject);
+        }
+
+    }
+
+    public override void OnRoomListUpdate(List<Photon.Realtime.RoomInfo> roomList)
+    {
+        base.OnRoomListUpdate(roomList);
+        ClearRoom();
+
+        //Add data to room list
+        foreach (RoomInfo roomInfo in roomList)
+        {
+            if (roomInfo.RemovedFromList)
+                continue;
+
+            string RoomName = roomInfo.Name;
+            string MasterName = (string)roomInfo.CustomProperties["MN"];
+            int MemberCount = roomInfo.PlayerCount;
+            string Password = (string)roomInfo.CustomProperties["RPW"];
+            UIManager.AddDebugMessage(roomInfo.CustomProperties.ToStringFull());
+            GameObject Room = GameObject.Instantiate(RoomPrefab, RoomListContent.content);
+
+            //Add data
+            Room.GetComponent<RoomInfoMH>().Init(RoomName, MasterName, MemberCount, Password);
         }
     }
 }

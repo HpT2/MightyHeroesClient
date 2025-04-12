@@ -41,8 +41,6 @@ public class Login : BaseUI
         LoginBtn.onClick.AddListener(OnLoginBtnCliecked);
         RegisterBtn.onClick.AddListener(OnRegisterBtnClicked);
         PassworldVisibleToggleBtn.onClick.AddListener(OnPasswordVisibleToggleClicked);
-
-        SocketEvent.OnLoginResponse += OnLoginResponse;
     }
 
     public override void Deinit()
@@ -52,8 +50,6 @@ public class Login : BaseUI
         LoginBtn.onClick.RemoveAllListeners();
         RegisterBtn.onClick.RemoveAllListeners();
         PassworldVisibleToggleBtn.onClick.RemoveAllListeners();
-
-        SocketEvent.OnLoginResponse -= OnLoginResponse;
     }
 
     void OnLoginBtnCliecked()
@@ -77,11 +73,11 @@ public class Login : BaseUI
         LoginBtn.interactable = false;
         RegisterBtn.interactable = false;
 
-        JObject Message = new JObject();
-        Message.Add("Username", username);
-        Message.Add("Password", password);
+        WWWForm Form = new WWWForm();
+        Form.AddField(Constant.PLAYER_USERNAME, username);
+        Form.AddField(Constant.PLAYER_PASSWORD, password);
 
-        SocketManager.Instance.EmitMessage(SocketEventName.EVENT_LOGIN, Message.ToString());
+        StartCoroutine(WebServiceAPI.PostRequest($"{URL.AUTHENTICATION_URL}/Login.php", Form, OnLoginCallback));
     }
 
     void OnRegisterBtnClicked()
@@ -109,24 +105,23 @@ public class Login : BaseUI
         PasswordInput.ActivateInputField();
     }
 
-    void OnLoginResponse(JObject data)
+    void OnLoginCallback(string response)
     {
-        Thread.Sleep(1000);
         UsernameInput.interactable = true;
         PasswordInput.interactable = true;
         LoginBtn.interactable = true;
         RegisterBtn.interactable = true;
 
-        JToken status = data.GetValue("State");
-        if(status.Value<string>() == LoginStatus.SUCCESS)
+        JObject data = JObject.Parse(response);
+        string status = data[Constant.RESPONSE_STATUS]?.Value<string>();
+        if(status == "SUCCESS")
         {
-            JToken userData = data.GetValue("UserData");
-            OnLoginSuccess(userData.Value<JObject>());
+            JObject UserData = data[Constant.USER_DATA]?.Value<JObject>();
+            OnLoginSuccess(UserData);
         }
         else
         {
-            JToken reason = data.GetValue("Reason");
-            OnLoginFailure(reason.Value<string>());
+            OnLoginFailure(data[Constant.FAILED_REASON]?.Value<string>());
         }
     }
 
@@ -141,29 +136,9 @@ public class Login : BaseUI
 
     void OnLoginFailure(string reason)
     {
-        if (reason == LoginFailedConstants.WRONG_PASSWORD)
-        {
-            LoginErrorText.text = "Login Failed: Wrong password";
-        }
-        else if (reason == LoginFailedConstants.USERNAME_NOT_FOUND)
-        {
-            LoginErrorText.text = "Login Failed: Username not found";
-        }
-
+        LoginErrorText.text = reason;
         LoginErrorText.gameObject.SetActive(true);
     }
-}
-
-class LoginFailedConstants
-{
-    public static string WRONG_PASSWORD = "wrong password";
-    public static string USERNAME_NOT_FOUND = "username not found";
-}
-
-class LoginStatus
-{
-    public static string SUCCESS = "success";
-    public static string FAIL = "failed";
 }
 
 public delegate void OnLoginSuccess_Delegate(UserInfo info);

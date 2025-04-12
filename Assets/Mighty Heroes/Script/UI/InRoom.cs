@@ -25,10 +25,6 @@ public class InRoom : BaseUI
     public override void Init()
     {
         base.Init();
-        
-        GameManager.OnEnterDefaultRoomEvent += OnEnterDefaultRoom;
-        GameManager.OnEnterSharedRoomEvent += OnEnterSharedRoom;
-        GameManager.OnBeginPlayingEvent += OnBeginPlaying;
 
         SettingBtn.onClick.AddListener(() =>
         {
@@ -44,18 +40,26 @@ public class InRoom : BaseUI
         {
             UIManager.AddDebugMessage("Bag Btn Clicked");
         });
+
+        GameManager.OnJoinedRoomEvent += OnJoinedRoom;
+        GameManager.OnLeftRoomEvent += OnLeftRoom;
     }
 
     public override void Deinit()
     {
         base.Deinit();
 
-        GameManager.OnEnterDefaultRoomEvent -= OnEnterDefaultRoom;
-        GameManager.OnEnterSharedRoomEvent -= OnEnterSharedRoom;
-        GameManager.OnBeginPlayingEvent -= OnBeginPlaying;
         SettingBtn.onClick.RemoveAllListeners();
         RoomBtn.onClick.RemoveAllListeners();
         BagBtn.onClick.RemoveAllListeners();
+
+        GameManager.OnJoinedRoomEvent -= OnJoinedRoom;
+        GameManager.OnLeftRoomEvent -= OnLeftRoom;
+    }
+
+    private void OnEnable()
+    {
+        UpdateCoin();
     }
 
     void UpdateCoin()
@@ -67,18 +71,15 @@ public class InRoom : BaseUI
         CoinValue.text = GameManager.Instance.ThisUserInfo.Coin.ToString("N0", customCulture);
     }
 
-    void OnEnterDefaultRoom()
+    void OnJoinedRoom()
     {
-        gameObject.SetActive(true);
-        RoomBtn.gameObject.SetActive(true);
-        UpdateCoin();
+        RoomBtn.gameObject.SetActive(false);
+        RoomList.SetActive(false);
     }
 
-    void OnEnterSharedRoom()
+    void OnLeftRoom()
     {
-        gameObject.SetActive(true);
-        UpdateCoin();
-        RoomBtn.gameObject.SetActive(false);
+        RoomBtn.gameObject.SetActive(true);
     }
 
     void OnBeginPlaying()

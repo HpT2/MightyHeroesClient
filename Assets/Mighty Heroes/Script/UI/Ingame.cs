@@ -43,14 +43,13 @@ public class Ingame : BaseUI
             });
             i++;
         }
-
-        GameManager.OnEnterDefaultRoomEvent += EnableInput;
+        GameManager.OnCharacterSpawned += EnableInput;
     }
 
     public override void Deinit()
     {
         Login.OnLoginSuccessEvent -= OnLoginSuccess;
-        GameManager.OnEnterDefaultRoomEvent -= EnableInput;
+        GameManager.OnCharacterSpawned -= EnableInput;
     }
     
     void EnableInput()
@@ -72,7 +71,6 @@ public class Ingame : BaseUI
         else
         {
             FirstLoginUI.SetActive(false);
-            GameManager.Instance.ChangeState(GameState.InDefaultRoom);
         }
     }
 }

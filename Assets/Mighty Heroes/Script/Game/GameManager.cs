@@ -1,31 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
-public enum GameState
-{
-    LoggingIn,
-    InDefaultRoom,
-    InSharedRoom,
-    Playing,
-}
+using Photon.Realtime;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
+    public List<string> UsableCharacter = new List<string>();
+
     public static GameManager Instance;
 
     public UserInfo ThisUserInfo;
 
-    private GameState CurrentGameState;
-
     public static OnNickNameModified OnNickNameModifiedEvent;
-    public static OnEnterDefaultRoom OnEnterDefaultRoomEvent;
-    public static OnEnterSharedRoom OnEnterSharedRoomEvent;
-    public static OnBeginPlaying OnBeginPlayingEvent;
+    public static OnCharacterSpawned_Delegate OnCharacterSpawned;
+    public static OnJoinedRoom_Delegate OnJoinedRoomEvent;
+    public static OnLeftRoom_Delegate OnLeftRoomEvent;
 
     [SerializeField]
-    private GameObject Character;
+    private GameObject CharacterData;
 
     private void Awake()
     {
@@ -39,14 +31,9 @@ public class GameManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        CurrentGameState = GameState.LoggingIn;
-
         OnNickNameModifiedEvent += OnNickNameModifiedCallback;
 
-        OnEnterDefaultRoomEvent += () =>
-        {
-            PhotonNetwork.ConnectUsingSettings();
-        };
+        PhotonNetwork.KeepAliveInBackground = 120;
 
         if(Application.internetReachability == NetworkReachability.NotReachable)
         {
@@ -54,11 +41,16 @@ public class GameManager : MonoBehaviourPunCallbacks
             UIManager.AddDebugMessage("Photon running in offline mode");
             //Offline mode will not be available in release
         }
+        else
+        {
+            Login.OnLoginSuccessEvent += ConnectToPhotonServer;
+        }
     }
 
     private void OnDestroy()
     {
         OnNickNameModifiedEvent -= OnNickNameModifiedCallback;
+        Login.OnLoginSuccessEvent -= ConnectToPhotonServer;
     }
 
     public void SaveUserInfo(UserInfo userInfo)
@@ -71,17 +63,45 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         base.OnConnectedToMaster();
-        //Temp
-        UIManager.AddDebugMessage($"GameManager.OnConnectedToMaster: Connected to Photon Server", LogVerbose.Warning);
-        Photon.Realtime.RoomOptions roomOptions = new Photon.Realtime.RoomOptions();
-        PhotonNetwork.JoinOrCreateRoom("Test", roomOptions, Photon.Realtime.TypedLobby.Default);
+        TypedLobby Lobby = new TypedLobby("Mighty Heroes", LobbyType.SqlLobby);
+        PhotonNetwork.JoinLobby(Lobby);
+        UIManager.AddDebugMessage($"GameManager.OnConnectedToMaster: Connected to Photon Server {PhotonNetwork.NickName}", LogVerbose.Warning);
+    }
+
+    public override void OnJoinedLobby()
+    {
+        base.OnJoinedLobby();
+
+        //temp
+        GameObject TempChar = Resources.Load("Bee") as GameObject;
+        GameObject LocalChar = GameObject.Instantiate(TempChar, Vector3.zero, Quaternion.identity);
+        Character CharComp = LocalChar.GetComponent<Character>();
+        CharComp.IsLocalControl = true;
     }
 
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        PhotonNetwork.Instantiate("Bat", Vector3.zero, Quaternion.identity);
+
+        PhotonNetwork.Instantiate($"Character/{UsableCharacter[Random.Range(0, UsableCharacter.Count)]}", Vector3.zero, Quaternion.identity);
+        OnJoinedRoomEvent?.Invoke();
+        UIManager.AddDebugMessage($"Join other player room: {PhotonNetwork.CurrentRoom.Name}");
+        Destroy(Character.LocalChar.gameObject);
+        //Hide Loading
+
+        //test
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Instantiate($"Character/TestAI", Vector3.zero, Quaternion.identity);
+        }
     }
+
+    public override void OnLeftRoom()
+    {
+        base.OnLeftRoom();
+        OnLeftRoomEvent?.Invoke();
+    }
+
     //End Photon Interface
 
     void OnNickNameModifiedCallback(string NewNickName)
@@ -89,32 +109,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.NickName = NewNickName;
     }
 
-    public void ChangeState(GameState NewState)
+    public void ConnectToPhotonServer(UserInfo info)
     {
-        CurrentGameState = NewState;
-        switch(NewState)
-        {
-            case GameState.InDefaultRoom:
-                OnEnterDefaultRoomEvent?.Invoke();
-                break;
-            case GameState.InSharedRoom:
-                OnEnterSharedRoomEvent?.Invoke();
-                break;
-            case GameState.Playing:
-                OnBeginPlayingEvent?.Invoke();
-                break;
-        }
-
-        UIManager.AddDebugMessage($"GameManager.ChangeState: NewState: {NewState}");
-    }
-
-    public GameState GetCurrentGameState()
-    {
-        return CurrentGameState; 
+        PhotonNetwork.AuthValues = new AuthenticationValues(info.UserName);
+        PhotonNetwork.ConnectUsingSettings();
+        //show loading screen
     }
 }
 
 public delegate void OnNickNameModified(string NewNickName);
-public delegate void OnEnterDefaultRoom();
-public delegate void OnEnterSharedRoom();
-public delegate void OnBeginPlaying();
+public delegate void OnCharacterSpawned_Delegate();
+public delegate void OnJoinedRoom_Delegate();
+public delegate void OnLeftRoom_Delegate();

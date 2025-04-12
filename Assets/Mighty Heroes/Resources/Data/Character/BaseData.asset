@@ -25,3 +25,4 @@ MonoBehaviour:
     Value: 0
   - Name: 5
     Value: 0.5
+  CharacterSkill: {fileID: 11400000, guid: 932f9244521f5174f8733d05f07e6e53, type: 2}

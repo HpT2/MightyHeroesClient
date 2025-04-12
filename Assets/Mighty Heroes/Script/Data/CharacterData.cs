@@ -14,4 +14,5 @@ public struct StatStruct
 public class CharacterData : ScriptableObject
 {
     public List<StatStruct> BaseCharacterStatData;
+    public CharacterSkillBase CharacterSkill;
 }
