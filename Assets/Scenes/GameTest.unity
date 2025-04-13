@@ -4428,7 +4428,7 @@ PrefabInstance:
     - target: {fileID: 8999251522448922063, guid: 53bf25f562b381346af48e138024ff2b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.82
+      value: -16.52
       objectReference: {fileID: 0}
     - target: {fileID: 8999251522448922063, guid: 53bf25f562b381346af48e138024ff2b,
         type: 3}
@@ -4438,7 +4438,7 @@ PrefabInstance:
     - target: {fileID: 8999251522448922063, guid: 53bf25f562b381346af48e138024ff2b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 3.85
       objectReference: {fileID: 0}
     - target: {fileID: 8999251522448922063, guid: 53bf25f562b381346af48e138024ff2b,
         type: 3}
@@ -5631,7 +5631,7 @@ PrefabInstance:
     - target: {fileID: 2745606993162761230, guid: 4cb91b46385cb1b4483842c1221159d7,
         type: 3}
       propertyPath: UsableCharacter.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2745606993162761230, guid: 4cb91b46385cb1b4483842c1221159d7,
         type: 3}
@@ -5641,7 +5641,7 @@ PrefabInstance:
     - target: {fileID: 2745606993162761230, guid: 4cb91b46385cb1b4483842c1221159d7,
         type: 3}
       propertyPath: UsableCharacter.Array.data[1]
-      value: Dragon Fire/Dragon Fire
+      value: Werewolf/Werewolf
       objectReference: {fileID: 0}
     - target: {fileID: 2745606993162761230, guid: 4cb91b46385cb1b4483842c1221159d7,
         type: 3}
@@ -6264,7 +6264,7 @@ PrefabInstance:
     - target: {fileID: 7673337934241102021, guid: 918b58b67b462ad409b038313e06323d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: -9.73
       objectReference: {fileID: 0}
     - target: {fileID: 7673337934241102021, guid: 918b58b67b462ad409b038313e06323d,
         type: 3}
@@ -6274,7 +6274,7 @@ PrefabInstance:
     - target: {fileID: 7673337934241102021, guid: 918b58b67b462ad409b038313e06323d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 2.37
       objectReference: {fileID: 0}
     - target: {fileID: 7673337934241102021, guid: 918b58b67b462ad409b038313e06323d,
         type: 3}

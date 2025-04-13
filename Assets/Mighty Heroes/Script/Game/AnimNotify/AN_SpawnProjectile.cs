@@ -28,6 +28,12 @@ public class AN_SpawnProjectile : AnimNotify
 
                 if(SpawnAtTarget)
                 {
+                    if(!Spawner.GetComponent<Character>().TargetingEnemy)
+                    {
+                        UIManager.AddDebugMessage("No target, spawn projectile at target failed", LogVerbose.Warning);
+                        return;
+                    }
+
                     SpawnPosition = Spawner.GetComponent<Character>().TargetingEnemy.transform.position;
                     if(FindGround)
                     {

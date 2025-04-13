@@ -84,8 +84,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4891440538664600065, guid: 82066d902ed0dd6488ddfd32eb994801,
         type: 3}
+      propertyPath: InitialModule.size3D
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891440538664600065, guid: 82066d902ed0dd6488ddfd32eb994801,
+        type: 3}
       propertyPath: EmissionModule.enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891440538664600065, guid: 82066d902ed0dd6488ddfd32eb994801,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891440538664600065, guid: 82066d902ed0dd6488ddfd32eb994801,
+        type: 3}
+      propertyPath: InitialModule.startSizeY.scalar
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891440538664600065, guid: 82066d902ed0dd6488ddfd32eb994801,
+        type: 3}
+      propertyPath: InitialModule.startSizeZ.scalar
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 4891440538664600065, guid: 82066d902ed0dd6488ddfd32eb994801,
         type: 3}
@@ -129,9 +149,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4891440538664600065, guid: 82066d902ed0dd6488ddfd32eb994801,
         type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].cycleCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891440538664600065, guid: 82066d902ed0dd6488ddfd32eb994801,
+        type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].repeatInterval
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891440538664600065, guid: 82066d902ed0dd6488ddfd32eb994801,
+        type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7326644512317886410, guid: 82066d902ed0dd6488ddfd32eb994801,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 65700cbb3b887cd4e9ba3c6960267cb1, type: 2}
     - target: {fileID: 8182681677076960709, guid: 82066d902ed0dd6488ddfd32eb994801,
         type: 3}
       propertyPath: looping

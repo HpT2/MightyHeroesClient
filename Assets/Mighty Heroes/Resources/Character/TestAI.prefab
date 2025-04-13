@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 5509178056904782688}
   m_Layer: 6
   m_Name: TestAI
-  m_TagString: Untagged
+  m_TagString: Creep
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,6 +166,7 @@ MonoBehaviour:
   OfflineTest: 0
   Rigidbody: {fileID: 0}
   Role: 1
+  TargetingEnemy: {fileID: 0}
   AIBehaviorInfo: {fileID: 11400000, guid: 1a5ff428260922c42998838a45bb3188, type: 2}
   ShouldStartAI: 0
   NavMeshAgent: {fileID: 0}
