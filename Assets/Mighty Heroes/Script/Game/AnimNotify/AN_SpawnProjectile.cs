@@ -8,6 +8,7 @@ public class AN_SpawnProjectile : AnimNotify
     public string ProjectilePath;
     public string SocketName;
     public bool SpawnAtTarget;
+    public bool FindGround;
     public float SpawnTime;
     private bool bHasSpawned = false;
 
@@ -22,37 +23,34 @@ public class AN_SpawnProjectile : AnimNotify
             if(photonView.IsMine)
             {
                 GameObject Spawner = animator.gameObject;
-                GameObject Projectile;
-                if(Spawner.GetComponent<Character>().IsLocalControl)
-                {
-                    GameObject Obj = Resources.Load(ProjectilePath) as GameObject;
-                    Projectile = GameObject.Instantiate(Obj);
-                }
-                else
-                {
-                    Projectile = PhotonNetwork.Instantiate(ProjectilePath, Vector3.zero, Quaternion.identity);
-                }
+                Vector3 SpawnPosition = Vector3.zero;
+                Vector3 SpawnDirection = Vector3.zero;
 
                 if(SpawnAtTarget)
                 {
-
+                    SpawnPosition = Spawner.GetComponent<Character>().TargetingEnemy.transform.position;
+                    if(FindGround)
+                    {
+                        SpawnPosition = Utils.FindGround(Spawner.GetComponent<Character>().TargetingEnemy);
+                    }
                 }
                 else
                 {
                     if(SocketName.Length > 0)
                     {
                         Transform transform = Spawner.transform.Find(SocketName);
-                        Projectile.transform.position = transform.position;
+                        SpawnPosition = transform.position;
                     }
                     else
                     {
-                        Projectile.transform.position = Spawner.transform.position;
+                        SpawnPosition = Spawner.transform.position;
                     }
 
-                    Projectile.transform.forward = Spawner.transform.forward;
+                    SpawnDirection = Spawner.transform.forward;
                 }
 
-                Projectile.GetComponent<AttackComponent>().SetSpawner(Spawner);
+                Character SpawnerCharacter = Spawner.GetComponent<Character>();
+                SpawnerCharacter.MulticastSpawnProjectile(ProjectilePath, SpawnPosition, SpawnDirection);
             }
         }
     }

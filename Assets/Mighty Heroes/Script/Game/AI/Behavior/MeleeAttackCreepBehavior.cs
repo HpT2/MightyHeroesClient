@@ -11,12 +11,13 @@ public class MeleeAttackCreepBehavior : AIBehaviorInfoBase
 
         CurrentState = EAIBehaviorState.ENone;
 
-        Collider[] Colliders = Physics.OverlapSphere(Owner.transform.position, SenseRadius);
+        Collider[] Colliders = Physics.OverlapSphere(Owner.transform.position, SenseRadius, LayerMask.GetMask("Damagable"));
 
         List<GameObject> TempPlayer = new List<GameObject>();
         for(int i = 0; i < Colliders.Length; i++)
         {
             Collider col = Colliders[i];
+
             if(col.CompareTag("Player"))
             {
                 TempPlayer.Add(col.gameObject);

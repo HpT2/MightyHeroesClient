@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+public enum CharacterRole
+{
+    CHARACTER_ROLE_PLAYER,
+    CHARACTER_ROLE_CREEP,
+}
+
 public class Character : MonoBehaviourPun, IPunObservable
 {
     public PlayerControllerComponent Controller;
@@ -16,6 +22,7 @@ public class Character : MonoBehaviourPun, IPunObservable
     public bool IsAI;
     public bool OfflineTest;
     public Rigidbody Rigidbody;
+    public CharacterRole Role;
 
     public static Character LocalChar;
 
@@ -23,6 +30,9 @@ public class Character : MonoBehaviourPun, IPunObservable
     private bool FirstFrame;
 
     private bool IsCoolingDownSkill = false;
+
+    [HideInInspector]
+    public GameObject TargetingEnemy;
 
     public Character() : base()
     {
@@ -166,10 +176,40 @@ public class Character : MonoBehaviourPun, IPunObservable
         }
     }
 
+    public void MulticastSpawnProjectile(string ProjectilePath, Vector3 Position, Vector3 Direction)
+    {
+        if(!PhotonNetwork.IsConnected)
+        {
+            SpawnProjectTile(ProjectilePath, Position, Direction, -1);
+        }
+        else
+        {
+            photonView.RPC("SpawnProjectTile", RpcTarget.All, ProjectilePath, Position, Direction, photonView.ViewID);
+        }
+    }
+
     [PunRPC]
     public void OnMainSkillTriggerRPC()
     {
         CharacterData.CharacterSkill.ActivateSkill(this);
+    }
+
+    [PunRPC]
+    public void SpawnProjectTile(string ProjectilePath, Vector3 Position, Vector3 Direction, int SpawnerViewID)
+    {
+        GameObject ProjectilePrefab = Resources.Load(ProjectilePath) as GameObject;
+        GameObject Projectile = GameObject.Instantiate(ProjectilePrefab, Position, Quaternion.identity);
+        Projectile.transform.forward = Direction;
+        PhotonView SpawnerView = PhotonView.Find(SpawnerViewID);
+        if(SpawnerView)
+        {
+            Projectile.GetComponent<AttackComponent>()?.SetSpawner(SpawnerView.gameObject);
+        }    
+        else
+        {
+            Projectile.GetComponent<AttackComponent>()?.SetSpawner(gameObject);
+        }
+        //UIManager.AddDebugMessage(Projectile.name);
     }
 
     public IEnumerator StartCooldown()
@@ -177,5 +217,10 @@ public class Character : MonoBehaviourPun, IPunObservable
         IsCoolingDownSkill = true;
         yield return new WaitForSeconds(CharacterData.CharacterSkill.CooldownTime);
         IsCoolingDownSkill = false;
+    }
+
+    public bool IsSameTeam(GameObject Other)
+    {
+        return tag == Other.tag;
     }
 }

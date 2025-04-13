@@ -121,3 +121,19 @@ public delegate void OnNickNameModified(string NewNickName);
 public delegate void OnCharacterSpawned_Delegate();
 public delegate void OnJoinedRoom_Delegate();
 public delegate void OnLeftRoom_Delegate();
+
+public class Utils
+{
+    public static Vector3 FindGround(GameObject InGO)
+    {
+        RaycastHit Hit;
+        Vector3 Start = InGO.transform.position;
+        Start.y += 1f;
+        if (Physics.Raycast(Start, Vector3.down, out Hit, 100, LayerMask.GetMask("WorldStatic")))
+        {
+            return new Vector3(Hit.point.x, Hit.point.y + 0.1f /* A little higher to the ground */, Hit.point.z);
+        }
+
+        return Vector3.zero;
+    }
+}

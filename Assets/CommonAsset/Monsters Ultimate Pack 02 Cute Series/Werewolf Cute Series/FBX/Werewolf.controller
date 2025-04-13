@@ -12,7 +12,10 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8744349172257305355}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: 132092711420715285}
+  - {fileID: 3277947890128843596}
+  - {fileID: 6785034180609965306}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -93,7 +96,7 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -107,6 +110,26 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
+--- !u!114 &132092711420715285
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecf8a4f01c4e71642ba34673b71decb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StateHash: 0
+  EffectToSpawn: {fileID: 1598736895405067446, guid: f778edfc42ecfe14b9af57d029468e68,
+    type: 3}
+  bShouldFindGround: 1
+  bAttachToOwner: 0
+  bAttachToEnemy: 0
+  SpawnTime: 0.6
+  Scale: {x: 1, y: 1, z: 1}
 --- !u!1101 &1101019641417966242
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2478,6 +2501,20 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1102940117004504186}
+--- !u!114 &3277947890128843596
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee8bc2cce8fbb8f4a9b19c2aedeb5552, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TargetingMethod: 0
+  Range: 100
 --- !u!1101 &3360087411659177645
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2503,6 +2540,24 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &6785034180609965306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e4a8a1e07f91849b1c0cb5b4e9e5ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StateHash: 0
+  ProjectilePath: Character/Werewolf/Projectile/Lightning
+  SocketName: 
+  SpawnAtTarget: 1
+  FindGround: 1
+  SpawnTime: 0.65
 --- !u!1101 &8463838191892836884
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

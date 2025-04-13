@@ -2510,6 +2510,7 @@ MonoBehaviour:
   IsAI: 0
   OfflineTest: 0
   Rigidbody: {fileID: 0}
+  Role: 0
 --- !u!114 &5431069851091584907
 MonoBehaviour:
   m_ObjectHideFlags: 0

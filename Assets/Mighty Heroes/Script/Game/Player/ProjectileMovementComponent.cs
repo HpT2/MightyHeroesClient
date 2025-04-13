@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ProjectileMovementComponent : MonoBehaviour
 {
@@ -14,14 +15,14 @@ public class ProjectileMovementComponent : MonoBehaviour
     private void Start()
     {
         SpawnedLocation = transform.position;
-        GetComponent<AttackComponent>().OnGameObjectDestroy += OnGameObjectDestroy;
+        AttackComponent AtkComp = GetComponent<AttackComponent>();
+        AtkComp.OnGameObjectDestroy += OnGameObjectDestroy;
+        GetComponent<Rigidbody>().velocity = transform.forward * Speed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += transform.forward * Speed * Time.deltaTime;
-
         if(Vector3.Distance(SpawnedLocation, transform.position) >= MaxRange)
         {
             GetComponent<AttackComponent>().SpawnEffectAndDestroy();

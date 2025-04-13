@@ -13,7 +13,7 @@ public class AttackComponent : MonoBehaviour
     [SerializeField]
     private Vector3 AttackSuccessEffectScale = Vector3.one;
 
-[HideInInspector]
+    [HideInInspector]
     public GameObject Spawner;
 
     public OnGameObjectDestroy_Delegate OnGameObjectDestroy;
