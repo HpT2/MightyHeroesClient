@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         //test
         if(PhotonNetwork.IsMasterClient)
         {
-            PhotonNetwork.Instantiate($"Character/TestAI", Vector3.zero, Quaternion.identity);
+            //PhotonNetwork.Instantiate($"Character/TestAI", Vector3.zero, Quaternion.identity);
         }
     }
 

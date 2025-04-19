@@ -5546,6 +5546,7 @@ MonoBehaviour:
   Rigidbody: {fileID: 0}
   Role: 0
   TargetingEnemy: {fileID: 0}
+  StopMoving: 0
   AIBehaviorInfo: {fileID: 11400000, guid: 1a5ff428260922c42998838a45bb3188, type: 2}
   ShouldStartAI: 1
   NavMeshAgent: {fileID: 0}
@@ -5631,7 +5632,7 @@ PrefabInstance:
     - target: {fileID: 2745606993162761230, guid: 4cb91b46385cb1b4483842c1221159d7,
         type: 3}
       propertyPath: UsableCharacter.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2745606993162761230, guid: 4cb91b46385cb1b4483842c1221159d7,
         type: 3}
@@ -5646,7 +5647,7 @@ PrefabInstance:
     - target: {fileID: 2745606993162761230, guid: 4cb91b46385cb1b4483842c1221159d7,
         type: 3}
       propertyPath: UsableCharacter.Array.data[2]
-      value: Werewolf
+      value: Wraith/Wraith
       objectReference: {fileID: 0}
     - target: {fileID: 2745606993162761230, guid: 4cb91b46385cb1b4483842c1221159d7,
         type: 3}
@@ -5937,6 +5938,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 765478171216705294, guid: 7a974c8c050e783448d1a8e87d94196f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.14143422
+      objectReference: {fileID: 0}
+    - target: {fileID: 765478171216705294, guid: 7a974c8c050e783448d1a8e87d94196f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.107242934
+      objectReference: {fileID: 0}
     - target: {fileID: 2184835426472410880, guid: 7a974c8c050e783448d1a8e87d94196f,
         type: 3}
       propertyPath: sceneViewId
@@ -5944,8 +5955,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2184835426472410887, guid: 7a974c8c050e783448d1a8e87d94196f,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2184835426472410887, guid: 7a974c8c050e783448d1a8e87d94196f,
+        type: 3}
       propertyPath: IsLocalControl
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3022663390712513328, guid: 7a974c8c050e783448d1a8e87d94196f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.11309757
+      objectReference: {fileID: 0}
+    - target: {fileID: 3022663390712513328, guid: 7a974c8c050e783448d1a8e87d94196f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.06930617
       objectReference: {fileID: 0}
     - target: {fileID: 6248615137053040942, guid: 7a974c8c050e783448d1a8e87d94196f,
         type: 3}
@@ -5956,6 +5982,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6248615137053040942, guid: 7a974c8c050e783448d1a8e87d94196f,
+        type: 3}
+      propertyPath: m_TagString
+      value: Creep
       objectReference: {fileID: 0}
     - target: {fileID: 6772387930064075668, guid: 7a974c8c050e783448d1a8e87d94196f,
         type: 3}
@@ -6110,6 +6141,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7307889135209633006, guid: 80f7629ed4156024bacdafea95ff3ca8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.010663349
+      objectReference: {fileID: 0}
+    - target: {fileID: 7307889135209633006, guid: 80f7629ed4156024bacdafea95ff3ca8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.011629515
       objectReference: {fileID: 0}
     - target: {fileID: 7307889135209728156, guid: 80f7629ed4156024bacdafea95ff3ca8,
         type: 3}

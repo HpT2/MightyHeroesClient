@@ -34,6 +34,9 @@ public class Character : MonoBehaviourPun, IPunObservable
     [HideInInspector]
     public GameObject TargetingEnemy;
 
+    [HideInInspector]
+    public bool StopMoving;
+
     public Character() : base()
     {
         BasePlayerStat = new PlayerStat();
@@ -104,7 +107,10 @@ public class Character : MonoBehaviourPun, IPunObservable
 
     protected virtual void Update()
     {
-        Controller.Update();
+        if(!StopMoving)
+        {
+            Controller.Update();
+        }
     }
 
     private void LateUpdate()

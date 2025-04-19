@@ -30,8 +30,11 @@ public class AIBehaviorBase : Character
     {
         while(AIBehaviorInfo.IsRunningAI)
         {
-            AIBehaviorInfo.UpdateState(Controller, gameObject);
-            AIBehaviorInfo.DoAction(Controller, gameObject);
+            if(!StopMoving)
+            {
+                AIBehaviorInfo.UpdateState(Controller, gameObject);
+                AIBehaviorInfo.DoAction(Controller, gameObject);
+            }
 
             yield return new WaitForSeconds(AIBehaviorInfo.UpdateRate);
         }

@@ -34,7 +34,10 @@ public class ProjectileMovementComponent : MonoBehaviour
         if (PreserveParticle && ParticleSystemGO)
         {
             ParticleSystemGO.transform.parent = null;
-            ParticleSystemGO.GetComponent<ParticleSystem>().Stop();
+            if(ParticleSystemGO.GetComponent<ParticleSystem>().main.loop)
+            {
+                ParticleSystemGO.GetComponent<ParticleSystem>().Stop();
+            }
         }
     }
 }

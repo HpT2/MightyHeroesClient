@@ -11,6 +11,8 @@ public class PlayerControllerComponent
     public Vector3 TargetPosition;
     public Quaternion TargetRotation;
     public bool UseExtrapolate = false;
+    public Vector3 LastUpdateVelocity;
+
     public PlayerControllerComponent(Character character)
     {
         OwnerCharacter = character;
@@ -65,6 +67,7 @@ public class PlayerControllerComponent
     {
         MoveDirection = new Vector3(Input.x, 0, Input.y);
         OwnerCharacter.Rigidbody.velocity = MoveDirection * MoveSpeed;
+        LastUpdateVelocity = OwnerCharacter.Rigidbody.velocity;
     }
 
     public void Update()

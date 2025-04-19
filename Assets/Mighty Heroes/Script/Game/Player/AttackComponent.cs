@@ -18,6 +18,8 @@ public class AttackComponent : MonoBehaviour
 
     public OnGameObjectDestroy_Delegate OnGameObjectDestroy;
 
+    public bool DestroyOnCollision;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == Spawner)
@@ -27,12 +29,22 @@ public class AttackComponent : MonoBehaviour
 
         UIManager.AddDebugMessage(other.gameObject.name);
 
-        if(Spawner.GetComponent<PhotonView>().IsMine)
+        if(PhotonNetwork.IsMasterClient)
         {
             //Deal damage
         }
 
-        SpawnEffectAndDestroy();
+        //Play Damage Anim
+        Animator AnimController = other.GetComponent<Animator>();
+        if(AnimController /*&& Check same team */)
+        {
+            AnimController.Play("TakeDamage", 0, 0);
+        }
+
+        if(DestroyOnCollision)
+        {
+            SpawnEffectAndDestroy();
+        }
     }
 
     public void SpawnEffectAndDestroy()
