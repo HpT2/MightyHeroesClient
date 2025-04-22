@@ -368,6 +368,21 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &-1961243393509223802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79ae32cf292587f4caf07015471a4ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamagedLayerMat: {fileID: 2100000, guid: 9acb19339eaa83e4f87686e2d3d918f9, type: 2}
+  LayerObjName: Wraith
+  EndDamagedTime: 0.9
 --- !u!1102 &-1717513453733642565
 AnimatorState:
   serializedVersion: 6
@@ -565,7 +580,6 @@ AnimatorState:
   m_Transitions:
   - {fileID: -100223990358098072}
   m_StateMachineBehaviours:
-  - {fileID: 3779370326074326760}
   - {fileID: 5331709514974419121}
   - {fileID: 7733424615580187942}
   m_Position: {x: 50, y: 50, z: 0}
@@ -669,6 +683,7 @@ AnimatorState:
   - {fileID: -7754707453342945914}
   m_StateMachineBehaviours:
   - {fileID: 4308851475865164712}
+  - {fileID: -1961243393509223802}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -928,18 +943,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!114 &3779370326074326760
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a41fd97e4a86d49a6c0965fc7efb28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1102 &3866869123694870393
 AnimatorState:
   serializedVersion: 6
@@ -980,6 +983,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9a41fd97e4a86d49a6c0965fc7efb28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StartTime: 0
+  EndTime: 0.9
 --- !u!1102 &4331128154331016621
 AnimatorState:
   serializedVersion: 6
@@ -1140,7 +1145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackBoxObj: {fileID: 6707692100059182161, guid: ac46f12b9ec362445ae17e4d419d844c,
     type: 3}
-  StartTime: 0
+  StartTime: 0.2
   EndTime: 0.8
   SocketPath: RigPelvis/RigSpine/RigRibcage/RigLArm1/RigLArm2/RigLArmPalm
 --- !u!1101 &5653605792694988038
@@ -1304,7 +1309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackBoxObj: {fileID: 6707692100059182161, guid: ac46f12b9ec362445ae17e4d419d844c,
     type: 3}
-  StartTime: 0
+  StartTime: 0.2
   EndTime: 0.8
   SocketPath: RigPelvis/RigSpine/RigRibcage/RigRArm1/RigRArm2/RigRArmPalm
 --- !u!1101 &7743707730577817538

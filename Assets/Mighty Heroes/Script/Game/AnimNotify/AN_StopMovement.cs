@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class AN_StopMovement : StateMachineBehaviour
 {
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public float StartTime;
+    public float EndTime = 0.9f;
+    bool Stopped = false;
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        base.OnStateEnter(animator, stateInfo, layerIndex);
-
-        Character Owner = animator.gameObject.GetComponent<Character>();
-        if(Owner && Owner.photonView.IsMine)
+        if(stateInfo.normalizedTime >= StartTime && stateInfo.normalizedTime <= EndTime && !Stopped)
         {
-            Owner.StopMoving = true;
-            Owner.Rigidbody.isKinematic = true;
+            Character Owner = animator.gameObject.GetComponent<Character>();
+            if (Owner && Owner.photonView.IsMine)
+            {
+                Owner.StopMoving = true;
+                Owner.Rigidbody.constraints = RigidbodyConstraints.FreezePosition;
+            }
+            Stopped = true;
+        }
+        else if(stateInfo.normalizedTime >= EndTime && Stopped)
+        {
+            Character Owner = animator.gameObject.GetComponent<Character>();
+            if (Owner && Owner.photonView.IsMine)
+            {
+                Owner.StopMoving = false;
+                Owner.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                Owner.Rigidbody.velocity = Owner.Controller.LastUpdateVelocity;
+            }
+
+            Stopped = false;
         }
     }
 
@@ -22,7 +39,7 @@ public class AN_StopMovement : StateMachineBehaviour
         if (Owner && Owner.photonView.IsMine)
         {
             Owner.StopMoving = false;
-            Owner.Rigidbody.isKinematic = false;
+            Owner.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
             Owner.Rigidbody.velocity = Owner.Controller.LastUpdateVelocity;
         }
 

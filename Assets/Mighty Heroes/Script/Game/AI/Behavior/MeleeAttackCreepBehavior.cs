@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 [CreateAssetMenu(fileName = "MeleeAttackCreepBehavior", menuName = "AI/Melee Attack Creep Behavior ")]
 public class MeleeAttackCreepBehavior : AIBehaviorInfoBase
@@ -27,16 +28,44 @@ public class MeleeAttackCreepBehavior : AIBehaviorInfoBase
         if(TempPlayer.Count == 0)
         {
             CurrentState = EAIBehaviorState.EPatrol;
-            Target = null;
             return;
         }
 
-        if(Target == null || !TempPlayer.Contains(Target))
+        GameObject FinalTarget = null;
+        if (TargetingMethod == TargetingMethod.RANDOM)
         {
-            Target = TempPlayer[0];
+            FinalTarget = TempPlayer[Random.Range(0, TempPlayer.Count)];
+        }
+        else if (TargetingMethod == TargetingMethod.NEAREST)
+        {
+            TempPlayer.Sort((a, b) =>
+            {
+                return Vector3.Distance(Owner.transform.position, a.transform.position).CompareTo(Vector3.Distance(Owner.transform.position, b.transform.position));
+            });
+            FinalTarget = TempPlayer[0];
+        }
+        else
+        {
+            TempPlayer.Sort((a, b) =>
+            {
+                return Vector3.Distance(Owner.transform.position, b.transform.position).CompareTo(Vector3.Distance(Owner.transform.position, a.transform.position));
+            });
+            FinalTarget = TempPlayer[0];
         }
 
-        if(Vector3.Distance(Target.transform.position, Owner.transform.position) < AttackRange)
+        Character OwnerChar = Owner.GetComponent<Character>();
+        if(OwnerChar.TargetingEnemy == null || !TempPlayer.Contains(Target))
+        {
+            OwnerChar.TargetingEnemy = TempPlayer[0];
+        }
+
+        Vector3 A = Owner.transform.forward;
+        A.y = 0;
+        Vector3 B = (OwnerChar.TargetingEnemy.transform.position - Owner.transform.position).normalized;
+        B.y = 0;
+        float angle = Vector3.Angle(A, B);
+
+        if (Vector3.Distance(OwnerChar.TargetingEnemy.transform.position, Owner.transform.position) < AttackRange && Mathf.Abs(angle) < 10)
         {
             CurrentState = EAIBehaviorState.EAttack;
         }
@@ -50,6 +79,7 @@ public class MeleeAttackCreepBehavior : AIBehaviorInfoBase
     {
         base.DoAction(Controller, Owner);
 
+        Character OwnerChar = Owner.GetComponent< Character>();
         switch (CurrentState)
         {
             case EAIBehaviorState.ENone:
@@ -58,11 +88,11 @@ public class MeleeAttackCreepBehavior : AIBehaviorInfoBase
                 break;
             case EAIBehaviorState.EAttack:
                 Controller.MoveDirection = Vector3.zero;
-                Owner.GetComponent<Character>().OnMainSkillTrigger();
+                OwnerChar.OnMainSkillTrigger();
                 break;
             case EAIBehaviorState.EChase:
-                Controller.MoveDirection = Owner.transform.forward;
-                Owner.GetComponent<AIBehaviorBase>().NavMeshAgent.SetDestination(Target.transform.position);
+                Controller.MoveDirection = (OwnerChar.TargetingEnemy.transform.position - Owner.transform.position).normalized;
+                Owner.GetComponent<AIBehaviorBase>().NavMeshAgent.SetDestination(OwnerChar.TargetingEnemy.transform.position);
                 break;
         }
 

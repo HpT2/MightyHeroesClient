@@ -34,6 +34,7 @@ public class AIBehaviorInfoBase : ScriptableObject
 
     public float AcceptedChaseRadius;
 
+    public TargetingMethod TargetingMethod;
     public virtual void UpdateState(PlayerControllerComponent Controller, GameObject Owner)
     {
         //Do something with AI

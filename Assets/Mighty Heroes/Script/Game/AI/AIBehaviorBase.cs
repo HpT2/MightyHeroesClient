@@ -57,6 +57,15 @@ public class AIBehaviorBase : Character
     protected override void Update()
     {
         base.Update();
+
+        if(StopMoving)
+        {
+            NavMeshAgent.isStopped = true;
+        }
+        else
+        {
+            NavMeshAgent.isStopped = false;
+        }
     }
 
     private void OnDrawGizmos()

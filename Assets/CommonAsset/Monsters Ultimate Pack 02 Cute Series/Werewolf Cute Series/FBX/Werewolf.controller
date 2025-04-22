@@ -129,6 +129,21 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-495842935887791499
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79ae32cf292587f4caf07015471a4ce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamagedLayerMat: {fileID: 2100000, guid: 9acb19339eaa83e4f87686e2d3d918f9, type: 2}
+  LayerObjName: Werewolf
+  EndDamagedTime: 0.9
 --- !u!91 &9100000
 AnimatorController:
   m_ObjectHideFlags: 0
@@ -1750,6 +1765,7 @@ AnimatorState:
   - {fileID: -5205422645616938586}
   m_StateMachineBehaviours:
   - {fileID: -2306063493035071854}
+  - {fileID: -495842935887791499}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
