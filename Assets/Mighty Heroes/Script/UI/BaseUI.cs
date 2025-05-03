@@ -16,14 +16,14 @@ public class BaseUI : MonoBehaviour
         IsInited = false;
     }
 
-    private void OnEnable()
-    {
-        if (IsInited) return;
-        Init();
-    }
+    //private void OnEnable()
+    //{
+    //    if (IsInited) return;
+    //    Init();
+    //}
 
-    private void OnDisable()
-    {
-        Deinit();
-    }
+    //private void OnDisable()
+    //{
+    //    Deinit();
+    //}
 }

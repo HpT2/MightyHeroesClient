@@ -31,7 +31,7 @@ public class RoomInfoMH : MonoBehaviour
     {
         RoomName.text = roomName;
         RoomMasterName.text = "Room Master: " + masterName;
-        MemberCount.text = memberCount + "/4";
+        MemberCount.text = memberCount.ToString();
         Password = password;
     }
 
@@ -39,8 +39,8 @@ public class RoomInfoMH : MonoBehaviour
     {
         if(Password.Length == 0)
         {
-            UnlockImg.SetActive(true);
             LockImg.SetActive(false);
+            UnlockImg.SetActive(true);
         }
         else
         {

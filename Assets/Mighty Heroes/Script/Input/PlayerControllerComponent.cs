@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControllerComponent
@@ -9,10 +11,14 @@ public class PlayerControllerComponent
     private Transform OwnerTrans;
 
     public Vector3 TargetPosition;
+    public Vector3 StartPosition;
+    public float ElapsedTime = 0;
     public Quaternion TargetRotation;
     public bool UseExtrapolate = false;
     public Vector3 LastUpdateVelocity;
-
+    GameObject CameraGO;
+    List<Material> CameraBlockObj = new List<Material>();
+    int ExtrapolateFrame;
     public PlayerControllerComponent(Character character)
     {
         OwnerCharacter = character;
@@ -32,6 +38,8 @@ public class PlayerControllerComponent
             IngameUI.OnMainSkillClicked += HandleMainSkillClicked;
             IngameUI.OnSkillClicked += HandleSkillClicked;
         }
+
+        CameraGO = Camera.main.gameObject;
     }
 
     public void UnbindInput()
@@ -65,6 +73,11 @@ public class PlayerControllerComponent
 
     private void HandleMoveInput(Vector2 Input)
     {
+        if (OwnerCharacter.IsDeath)
+        {
+            return;
+        }
+
         MoveDirection = new Vector3(Input.x, 0, Input.y);
         OwnerCharacter.Rigidbody.velocity = MoveDirection * MoveSpeed;
         LastUpdateVelocity = OwnerCharacter.Rigidbody.velocity;
@@ -72,22 +85,46 @@ public class PlayerControllerComponent
 
     public void Update()
     {
+        if(OwnerCharacter.IsDeath)
+        {
+            return;
+        }
+
         bool IsMoving = MoveDirection.sqrMagnitude > 0.01f;
 
-        if (OwnerCharacter.photonView.IsMine || OwnerCharacter.IsLocalControl)
+        if (OwnerCharacter.photonView.IsMine /*|| OwnerCharacter.IsLocalControl*/)
         {
             if (MoveDirection != Vector3.zero)
             {
                 OwnerCharacter.transform.rotation = Quaternion.Lerp(OwnerCharacter.transform.rotation, Quaternion.LookRotation(MoveDirection), Time.deltaTime * 5f);
             }
+            
+            if(!OwnerCharacter.IsAI)
+            {
+                ClearCameraBlockObj();
+                ProcessCameraBlockObj();
+            }
         }
         else
         {
-            OwnerCharacter.transform.rotation = Quaternion.Lerp(OwnerCharacter.transform.rotation, TargetRotation, Time.deltaTime * 10f);
+            float RotateSpeed = 10 * Time.deltaTime;
+            if(RotateSpeed > 0.01)
+            {
+                OwnerCharacter.transform.rotation = Quaternion.Lerp(OwnerCharacter.transform.rotation, TargetRotation, RotateSpeed);
+            }
+
 
             if(IsMoving && (OwnerCharacter.transform.position - TargetPosition).sqrMagnitude <= 0.05f)
             {
-                UseExtrapolate = true;
+                if (UseExtrapolate)
+                {
+                    ExtrapolateFrame++;
+                }
+                else
+                {
+                    UseExtrapolate = true;
+                    ExtrapolateFrame = 1;
+                } 
             }
             else if(!IsMoving)
             {
@@ -96,15 +133,62 @@ public class PlayerControllerComponent
 
             if(UseExtrapolate)
             {
-                OwnerCharacter.transform.position += MoveDirection * MoveSpeed * Time.deltaTime;
+                if(ExtrapolateFrame <= 5)
+                {
+                    OwnerCharacter.Rigidbody.velocity = (MoveSpeed * MoveDirection);
+                }
+                else
+                {
+                    OwnerCharacter.Rigidbody.velocity = Vector3.zero;
+                }
             }
-            else
+            else if(IsMoving)
             {
-                OwnerCharacter.transform.position = Vector3.Lerp(OwnerCharacter.transform.position, TargetPosition, Time.deltaTime * MoveSpeed);
+                //OwnerCharacter.Rigidbody.velocity = Vector3.zero;
+                //sElapsedTime += MoveSpeed * Time.deltaTime;
+                OwnerCharacter.transform.position = Vector3.MoveTowards(OwnerCharacter.transform.position, TargetPosition, MoveSpeed * Time.deltaTime);
             }
 
         }
-        
-        OwnerCharacter.AnimController.SetBool("IsMoving", IsMoving);
+
+        if(!OwnerCharacter.IsAI)
+        {
+            OwnerCharacter.AnimController.SetBool("IsMoving", IsMoving);
+        }
+    }
+
+    private void ClearCameraBlockObj()
+    {
+        foreach(Material Mat in CameraBlockObj)
+        {
+            Color col = Mat.color;
+            col.a = 1;
+            Mat.color = col;
+        }
+        CameraBlockObj.Clear();
+    }
+
+    private void ProcessCameraBlockObj()
+    {
+        Vector3 CameraPos = CameraGO.transform.position;
+        Vector3 OwnerPos = OwnerCharacter.transform.position;
+        Vector3 v = CameraPos - OwnerPos;
+        RaycastHit Hit;
+        //Debug.(OwnerPos, v, Color.red);
+        if (Physics.Raycast(OwnerPos, v.normalized, out Hit, v.magnitude/*, LayerMask.NameToLayer("WorldStatic")*/))
+        {
+            Renderer Ren = Hit.collider.GetComponent<Renderer>();
+            if (Ren)
+            {
+                foreach(Material Mat in Ren.materials)
+                {
+                    Color color = Mat.color;
+                    color.a = 0.3f; // Set desired alpha
+                    Mat.color = color;
+
+                    CameraBlockObj.Add(Mat);
+                }
+            }
+        }
     }
 }

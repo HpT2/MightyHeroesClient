@@ -118,7 +118,7 @@ MonoBehaviour:
     type: 3}
   AttackSuccessEffectScale: {x: 2, y: 2, z: 2}
   Spawner: {fileID: 0}
-  DestroyOnCollision: 1
+  DestroyOnCollision: 0
 --- !u!114 &-8826822261494575003
 MonoBehaviour:
   m_ObjectHideFlags: 0

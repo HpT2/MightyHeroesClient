@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,6 +28,11 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private List<BaseUI> UIList = new List<BaseUI>();
 
+    [SerializeField]
+    private TextMeshProUGUI PingText;
+
+    Coroutine PingRoutine;
+
     private void Awake()
     {
         if(!Instance)
@@ -52,6 +58,44 @@ public class UIManager : MonoBehaviour
         for(int i = 0; i < UIList.Count; i++)
         {
             UIList[i].Init();
+        }
+    }
+
+    private void Start()
+    {
+        GameManager.OnJoinedLobbyEvent += OnJoinedLobby;
+    }
+
+    void OnJoinedLobby()
+    {
+        if(PingRoutine != null)
+        {
+            StopCoroutine(PingRoutine);
+        }
+        PingRoutine = StartCoroutine(UpdatePing());
+    }
+
+    IEnumerator UpdatePing()
+    {
+        while(true)
+        {
+            int Ping = PhotonNetwork.GetPing();
+            Color color;
+            if(Ping < 20)
+            {
+                color = Color.green;
+            }
+            else if(Ping < 60)
+            {
+                color = Color.yellow;
+            }
+            else
+            {
+                color = Color.red;
+            }
+            PingText.text = Ping + " ms";
+            PingText.color = color;
+            yield return new WaitForSeconds(3);
         }
     }
 

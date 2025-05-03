@@ -57,9 +57,10 @@ public class Login : BaseUI
         LoginErrorText.gameObject.SetActive(false);
 
         string username = UsernameInput.text;
-        string password = PasswordInput.text;
+        //string password = PasswordInput.text;
+        string password = username;
         
-        if(username == "" || password == "")
+        if (username == "" || password == "")
         {
             //Show notice
             LoginErrorText.text = "Username and Password must not be empty";
@@ -77,7 +78,11 @@ public class Login : BaseUI
         Form.AddField(Constant.PLAYER_USERNAME, username);
         Form.AddField(Constant.PLAYER_PASSWORD, password);
 
-        StartCoroutine(WebServiceAPI.PostRequest($"{URL.AUTHENTICATION_URL}/Login.php", Form, OnLoginCallback));
+        //StartCoroutine(WebServiceAPI.PostRequest($"{URL.AUTHENTICATION_URL}/Login.php", Form, OnLoginCallback));
+        JObject Data = new JObject();
+        Data.Add("NickName", username);
+        Data.Add("IsFirstLogin", false);
+        OnLoginSuccess(Data);
     }
 
     void OnRegisterBtnClicked()
@@ -129,8 +134,9 @@ public class Login : BaseUI
     {
         //UIManager.AddDebugMessage(UserData.ToString());
         UserInfo info = UserData.ToObject<UserInfo>();
-        UIManager.AddDebugMessage("Login.OnLoginSuccess: " + JObject.FromObject(info));
+        //UIManager.AddDebugMessage("Login.OnLoginSuccess: " + JObject.FromObject(info));
         gameObject.SetActive(false);
+        UIManager.Instance.GetUIByType<Loading>().Show();
         OnLoginSuccessEvent.Invoke(info);
     }
 

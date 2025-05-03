@@ -435,6 +435,8 @@ MonoBehaviour:
   Role: 0
   TargetingEnemy: {fileID: 0}
   StopMoving: 0
+  IsDeath: 0
+  CurrentLevel: 1
 --- !u!136 &9127999964334886554
 CapsuleCollider:
   m_ObjectHideFlags: 0

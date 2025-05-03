@@ -784,7 +784,10 @@ MonoBehaviour:
   Role: 1
   TargetingEnemy: {fileID: 0}
   StopMoving: 0
+  IsDeath: 0
+  CurrentLevel: 1
   AIBehaviorInfo: {fileID: 11400000, guid: ccda6215c88eee043a83d90deacc6408, type: 2}
+  AIBehaviorInfoInstance: {fileID: 0}
   ShouldStartAI: 0
   NavMeshAgent: {fileID: 0}
 --- !u!114 &-3053166264359428478

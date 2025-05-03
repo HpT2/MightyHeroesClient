@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class UserInfo 
 {
-    public string ID;
-    public string UserName;
+    //public string ID;
+    //public string UserName;
     public bool IsFirstLogin;
     public string NickName;
-    public int Coin = 1000;
+    //public int Coin = 1000;
 }

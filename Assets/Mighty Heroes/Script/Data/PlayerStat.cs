@@ -128,4 +128,26 @@ public class PlayerStat
 
         OnStatChange?.Invoke(Name);
     }
+
+    public void SetStat(StatName Name, float Value)
+    {
+        BaseStat[Name] = Value;
+        OnStatChange?.Invoke(Name);
+    }
+
+    public void LevelUp(int NewLevel, PlayerStat Base)
+    {
+        foreach(var KVP in Base.BaseStat)
+        {
+            StatName Name = KVP.Key;
+            float BaseValue = KVP.Value;
+            if(Name == StatName.MOVE_SPD)
+            {
+                SetStat(Name, BaseValue + NewLevel / 2);
+                continue;
+            }
+
+            SetStat(Name, BaseValue * NewLevel);
+        }
+    }
 }

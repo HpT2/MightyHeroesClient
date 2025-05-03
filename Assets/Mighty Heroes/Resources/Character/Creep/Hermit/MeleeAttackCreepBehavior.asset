@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8798bf4c9aaf6bd45a2826e4f5c7f31e, type: 3}
+  m_Name: MeleeAttackCreepBehavior
+  m_EditorClassIdentifier: 
+  UpdateRate: 0.2
+  IsAlive: 0
+  IsRunningAI: 0
+  CurrentState: 0
+  Target: {fileID: 0}
+  SenseRadius: 100
+  AttackRange: 4
+  AcceptedChaseRadius: 4
+  TargetingMethod: 0

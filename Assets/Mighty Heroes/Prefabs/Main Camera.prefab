@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2745606993162761226}
   - component: {fileID: 2745606993162761225}
   - component: {fileID: 2745606993162761224}
-  - component: {fileID: 2745606993162761228}
   - component: {fileID: 2745606993162761230}
   m_Layer: 0
   m_Name: Main Camera
@@ -86,20 +85,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2745606993162761223}
   m_Enabled: 1
---- !u!114 &2745606993162761228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2745606993162761223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4256683eae1e824eb181d70a567486f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ServerHost: 127.0.0.1
-  ServerPort: 9999
 --- !u!114 &2745606993162761230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,4 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be933ee3897752b428ee0d499c25a155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Character: {fileID: 0}
+  UsableCharacter:
+  - Dragon Fire/Dragon Fire
+  - Werewolf/Werewolf
+  - Wraith/Wraith
+  CharacterData: {fileID: 0}

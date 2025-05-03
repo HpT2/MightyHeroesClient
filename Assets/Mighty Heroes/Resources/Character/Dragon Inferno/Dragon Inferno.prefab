@@ -1181,6 +1181,11 @@ MonoBehaviour:
   IsAI: 0
   OfflineTest: 0
   Rigidbody: {fileID: 0}
+  Role: 0
+  TargetingEnemy: {fileID: 0}
+  StopMoving: 0
+  IsDeath: 0
+  CurrentLevel: 1
 --- !u!114 &4931236981268539909
 MonoBehaviour:
   m_ObjectHideFlags: 0

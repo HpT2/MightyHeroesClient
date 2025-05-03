@@ -2513,6 +2513,8 @@ MonoBehaviour:
   Role: 0
   TargetingEnemy: {fileID: 0}
   StopMoving: 0
+  IsDeath: 0
+  CurrentLevel: 1
 --- !u!114 &5431069851091584907
 MonoBehaviour:
   m_ObjectHideFlags: 0

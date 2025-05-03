@@ -7,6 +7,8 @@ using UnityEngine.AI;
 public class AIBehaviorBase : Character
 {
     public AIBehaviorInfoBase AIBehaviorInfo;
+    public AIBehaviorInfoBase AIBehaviorInfoInstance;
+
     public bool ShouldStartAI;
     Coroutine AIUpdateHandle;
     public NavMeshAgent NavMeshAgent;
@@ -14,21 +16,26 @@ public class AIBehaviorBase : Character
     protected override void Start()
     {
         base.Start();
-        
+
+        Role = CharacterRole.CHARACTER_ROLE_CREEP;
+
         NavMeshAgent = gameObject.AddComponent<NavMeshAgent>();
         NavMeshAgent.speed = Controller.MoveSpeed;
         NavMeshAgent.stoppingDistance = AIBehaviorInfo.AttackRange;
 
-        AIBehaviorInfo.IsRunningAI = true;
+        AIBehaviorInfoInstance = ScriptableObject.CreateInstance("AIBehaviorInfoBase") as AIBehaviorInfoBase;
+        AIBehaviorInfoInstance.IsRunningAI = true;
         if(PhotonNetwork.IsMasterClient || ShouldStartAI)
         {
             AIUpdateHandle = StartCoroutine(UpdateAI());
         }
+
+        OnDeath += OnAIDeath;
     }
 
     IEnumerator UpdateAI()
     {
-        while(AIBehaviorInfo.IsRunningAI)
+        while(AIBehaviorInfoInstance.IsRunningAI)
         {
             if(!StopMoving)
             {
@@ -44,21 +51,21 @@ public class AIBehaviorBase : Character
     {
         base.OnPhotonSerializeView(stream, info);
 
-        //if (stream.IsWriting)
-        //{
-        //    stream.SendNext(Rigidbody.velocity);
-        //}
-        //else
-        //{
-        //    Rigidbody.velocity = (Vector3)stream.ReceiveNext();
-        //}
+        if (stream.IsWriting)
+        {
+            stream.SendNext(AnimController.GetBool("IsMoving"));
+        }
+        else
+        {
+            AnimController.SetBool("IsMoving", (bool)stream.ReceiveNext());
+        }
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if(StopMoving)
+        if(StopMoving || IsDeath)
         {
             NavMeshAgent.isStopped = true;
         }
@@ -72,5 +79,10 @@ public class AIBehaviorBase : Character
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, AIBehaviorInfo.SenseRadius);
+    }
+
+    void OnAIDeath(Character DeathAI, Character Instigator)
+    {
+        AIBehaviorInfoInstance.IsRunningAI = false;
     }
 }

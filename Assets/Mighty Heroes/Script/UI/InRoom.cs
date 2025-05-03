@@ -43,6 +43,7 @@ public class InRoom : BaseUI
 
         GameManager.OnJoinedRoomEvent += OnJoinedRoom;
         GameManager.OnLeftRoomEvent += OnLeftRoom;
+        GameManager.OnJoinedLobbyEvent += OnJoinedLobby;
     }
 
     public override void Deinit()
@@ -55,11 +56,17 @@ public class InRoom : BaseUI
 
         GameManager.OnJoinedRoomEvent -= OnJoinedRoom;
         GameManager.OnLeftRoomEvent -= OnLeftRoom;
+        GameManager.OnJoinedLobbyEvent -= OnJoinedLobby;
     }
 
     private void OnEnable()
     {
-        UpdateCoin();
+        //UpdateCoin();
+    }
+
+    private void OnDisable()
+    {
+        RoomList.SetActive(false);
     }
 
     void UpdateCoin()
@@ -68,18 +75,24 @@ public class InRoom : BaseUI
         customCulture.NumberFormat.CurrencyGroupSeparator = " ";
         customCulture.NumberFormat.NumberGroupSeparator = " ";
 
-        CoinValue.text = GameManager.Instance.ThisUserInfo.Coin.ToString("N0", customCulture);
+        //CoinValue.text = GameManager.Instance.ThisUserInfo.Coin.ToString("N0", customCulture);
     }
 
     void OnJoinedRoom()
     {
-        RoomBtn.gameObject.SetActive(false);
-        RoomList.SetActive(false);
+        //RoomBtn.gameObject.SetActive(false);
+        //RoomList.SetActive(false);
+        gameObject.SetActive(false);
+    }
+
+    void OnJoinedLobby()
+    {
+        gameObject.SetActive(true);
     }
 
     void OnLeftRoom()
     {
-        RoomBtn.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     void OnBeginPlaying()

@@ -12,10 +12,10 @@ public class AN_StopMovement : StateMachineBehaviour
         if(stateInfo.normalizedTime >= StartTime && stateInfo.normalizedTime <= EndTime && !Stopped)
         {
             Character Owner = animator.gameObject.GetComponent<Character>();
-            if (Owner && Owner.photonView.IsMine)
+            if (Owner)
             {
                 Owner.StopMoving = true;
-                Owner.Rigidbody.constraints = RigidbodyConstraints.FreezePosition;
+                if(!Owner.IsAI) Owner.Rigidbody.constraints = RigidbodyConstraints.FreezePosition;
             }
             Stopped = true;
         }
@@ -25,8 +25,12 @@ public class AN_StopMovement : StateMachineBehaviour
             if (Owner && Owner.photonView.IsMine)
             {
                 Owner.StopMoving = false;
-                Owner.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-                Owner.Rigidbody.velocity = Owner.Controller.LastUpdateVelocity;
+
+                if (!Owner.IsAI)
+                {
+                    Owner.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                    if (Owner.photonView.IsMine)  Owner.Rigidbody.velocity = Owner.Controller.LastUpdateVelocity;
+                } 
             }
 
             Stopped = false;
@@ -36,11 +40,16 @@ public class AN_StopMovement : StateMachineBehaviour
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Character Owner = animator.gameObject.GetComponent<Character>();
-        if (Owner && Owner.photonView.IsMine)
+        if (Owner)
         {
             Owner.StopMoving = false;
-            Owner.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
-            Owner.Rigidbody.velocity = Owner.Controller.LastUpdateVelocity;
+
+            if (!Owner.IsAI)
+            {
+                Owner.Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+                if(Owner.photonView.IsMine) Owner.Rigidbody.velocity = Owner.Controller.LastUpdateVelocity;
+            }
+            Stopped = false;
         }
 
         base.OnStateExit(animator, stateInfo, layerIndex);

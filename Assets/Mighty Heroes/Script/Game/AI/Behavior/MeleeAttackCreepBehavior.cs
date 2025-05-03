@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 [CreateAssetMenu(fileName = "MeleeAttackCreepBehavior", menuName = "AI/Melee Attack Creep Behavior ")]
 public class MeleeAttackCreepBehavior : AIBehaviorInfoBase
@@ -80,6 +79,7 @@ public class MeleeAttackCreepBehavior : AIBehaviorInfoBase
         base.DoAction(Controller, Owner);
 
         Character OwnerChar = Owner.GetComponent< Character>();
+        OwnerChar.AnimController.SetBool("IsMoving", false);
         switch (CurrentState)
         {
             case EAIBehaviorState.ENone:
@@ -92,6 +92,7 @@ public class MeleeAttackCreepBehavior : AIBehaviorInfoBase
                 break;
             case EAIBehaviorState.EChase:
                 Controller.MoveDirection = (OwnerChar.TargetingEnemy.transform.position - Owner.transform.position).normalized;
+                OwnerChar.AnimController.SetBool("IsMoving", true);
                 Owner.GetComponent<AIBehaviorBase>().NavMeshAgent.SetDestination(OwnerChar.TargetingEnemy.transform.position);
                 break;
         }

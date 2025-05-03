@@ -15,4 +15,6 @@ public class CharacterData : ScriptableObject
 {
     public List<StatStruct> BaseCharacterStatData;
     public CharacterSkillBase CharacterSkill;
+    public float BaseExpThrowWhenDeath = 10;
+    public float BaseExpNeedToLevelUp = 15;
 }

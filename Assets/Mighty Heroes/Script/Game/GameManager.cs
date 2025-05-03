@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static OnCharacterSpawned_Delegate OnCharacterSpawned;
     public static OnJoinedRoom_Delegate OnJoinedRoomEvent;
     public static OnLeftRoom_Delegate OnLeftRoomEvent;
-
+    public static OnJoinedLobby_Delegate OnJoinedLobbyEvent;
     [SerializeField]
     private GameObject CharacterData;
 
@@ -72,11 +72,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedLobby();
 
+        OnJoinedLobbyEvent?.Invoke();
         //temp
-        GameObject TempChar = Resources.Load("Bee") as GameObject;
-        GameObject LocalChar = GameObject.Instantiate(TempChar, Vector3.zero, Quaternion.identity);
-        Character CharComp = LocalChar.GetComponent<Character>();
-        CharComp.IsLocalControl = true;
+        //GameObject TempChar = Resources.Load("Bee") as GameObject;
+        //GameObject LocalChar = GameObject.Instantiate(TempChar, Vector3.zero, Quaternion.identity);
+        //Character CharComp = LocalChar.GetComponent<Character>();
+        //CharComp.IsLocalControl = true;
     }
 
     public override void OnJoinedRoom()
@@ -86,7 +87,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.Instantiate($"Character/{UsableCharacter[Random.Range(0, UsableCharacter.Count)]}", Vector3.zero, Quaternion.identity);
         OnJoinedRoomEvent?.Invoke();
         UIManager.AddDebugMessage($"Join other player room: {PhotonNetwork.CurrentRoom.Name}");
-        Destroy(Character.LocalChar.gameObject);
+        //Destroy(Character.LocalChar.gameObject);
         //Hide Loading
 
         //test
@@ -111,8 +112,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void ConnectToPhotonServer(UserInfo info)
     {
-        PhotonNetwork.AuthValues = new AuthenticationValues(info.UserName);
+        //PhotonNetwork.AuthValues = new AuthenticationValues(info.UserName);
         PhotonNetwork.ConnectUsingSettings();
+        SaveUserInfo(info);
         //show loading screen
     }
 }
@@ -121,7 +123,7 @@ public delegate void OnNickNameModified(string NewNickName);
 public delegate void OnCharacterSpawned_Delegate();
 public delegate void OnJoinedRoom_Delegate();
 public delegate void OnLeftRoom_Delegate();
-
+public delegate void OnJoinedLobby_Delegate();
 public class Utils
 {
     public static Vector3 FindGround(GameObject InGO)

@@ -14,15 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BaseCharacterStatData:
   - Name: 0
-    Value: 100
+    Value: 550
   - Name: 1
-    Value: 100
+    Value: 125
   - Name: 2
-    Value: 100
+    Value: 200
   - Name: 3
-    Value: 8
+    Value: 10
   - Name: 4
     Value: 0
   - Name: 5
-    Value: 0.5
+    Value: 0
   CharacterSkill: {fileID: 11400000, guid: 932f9244521f5174f8733d05f07e6e53, type: 2}
+  BaseExpThrowWhenDeath: 100
+  BaseExpNeedToLevelUp: 750

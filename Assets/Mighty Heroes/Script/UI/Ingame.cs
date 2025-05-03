@@ -25,12 +25,26 @@ public class Ingame : BaseUI
 
     [SerializeField]
     private List<GameObject> GameInput;
+
+    [SerializeField]
+    private Button LeaveRoomBtn;
+
+    public Image CooldownImg;
+
     public override void Init()
     {
         Login.OnLoginSuccessEvent += OnLoginSuccess;
         MainSkillBtn.onClick.AddListener(() =>
         {
             OnMainSkillClicked?.Invoke();
+        });
+
+        LeaveRoomBtn.onClick.AddListener(() =>
+        {
+            if(PhotonNetwork.InRoom)
+            {
+                PhotonNetwork.LeaveRoom();
+            }
         });
 
         int i = 1;
@@ -44,6 +58,7 @@ public class Ingame : BaseUI
             i++;
         }
         GameManager.OnCharacterSpawned += EnableInput;
+        GameManager.OnLeftRoomEvent += DisableInput;
     }
 
     public override void Deinit()
@@ -60,9 +75,24 @@ public class Ingame : BaseUI
         }
     }
 
+    void DisableInput()
+    {
+        foreach (var Input in GameInput)
+        {
+            Input.SetActive(false);
+        }
+    }
+
+    public void HideOnDeath()
+    {
+        for(int i = 0; i < SkillBtnList.Count - 1; i++)
+        {
+            GameInput[i].SetActive(false);
+        }
+    }
+
     void OnLoginSuccess(UserInfo userInfo)
     {
-        GameManager.Instance.SaveUserInfo(userInfo);
         gameObject.SetActive(true);
         if (userInfo.IsFirstLogin)
         {

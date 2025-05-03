@@ -36,7 +36,7 @@ public class AN_FindTarget : StateMachineBehaviour
             for (int i = 0; i < Colliders.Length; i++)
             {
                 Collider col = Colliders[i];
-                if(Owner.IsSameTeam(col.gameObject))
+                if(Owner.gameObject == col.gameObject)
                 {
                     continue;
                 }
@@ -72,7 +72,7 @@ public class AN_FindTarget : StateMachineBehaviour
             }
 
             Owner.TargetingEnemy = FinalTarget;
-            UIManager.AddDebugMessage("AN_FindTarget: " + FinalTarget.name);
+            //UIManager.AddDebugMessage("AN_FindTarget: " + FinalTarget.name);
         }
     }
 }

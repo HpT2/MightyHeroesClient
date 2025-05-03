@@ -30,6 +30,11 @@ public class ANS_AttackBox : StateMachineBehaviour
         {
             GameObject.Destroy(SpawnedAttackBox);
         }
+    }
 
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        GameObject.Destroy(SpawnedAttackBox);
+        base.OnStateExit(animator, stateInfo, layerIndex);
     }
 }

@@ -27,7 +27,7 @@ public class FirstLogin : BaseUI
 
             WWWForm Form = new WWWForm();
             Form.AddField(Constant.NICK_NAME, NickNameInput.text);
-            Form.AddField(Constant.PLAYER_USERNAME, GameManager.Instance.ThisUserInfo.UserName);
+            //Form.AddField(Constant.PLAYER_USERNAME, GameManager.Instance.ThisUserInfo.UserName);
 
             StartCoroutine(WebServiceAPI.PostRequest($"{URL.SERVICES_URL}/NameChange.php", Form, OnNameChangeCallback));
 

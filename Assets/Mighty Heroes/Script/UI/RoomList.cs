@@ -36,6 +36,7 @@ public class RoomList : MonoBehaviourPunCallbacks
 
         CloseBtn.onClick.AddListener(() =>
         {
+            //UIManager.AddDebugMessage("Hello");
             gameObject.SetActive(false);
         });
 
@@ -58,6 +59,8 @@ public class RoomList : MonoBehaviourPunCallbacks
         CloseBtn.onClick.RemoveAllListeners();
         CreateBtn.onClick.RemoveAllListeners();
         FindBtn.onClick.RemoveAllListeners();
+
+        RoomCreatePanel.SetActive(false);
 
         base.OnDisable();
     }
