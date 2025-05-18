@@ -26,5 +26,5 @@ MonoBehaviour:
   - Name: 5
     Value: 0
   CharacterSkill: {fileID: 11400000, guid: 0c2028729148a34459de0aad88705f27, type: 2}
-  BaseExpThrowWhenDeath: 8
+  BaseExpThrowWhenDeath: 120
   BaseExpNeedToLevelUp: 0

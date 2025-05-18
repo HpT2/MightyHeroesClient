@@ -47029,13 +47029,13 @@ MonoBehaviour:
   - AIGameObjectPrefabPath: Character/Creep/Bat/Bat
     FirstSpawnDelay: 0
     SpawnInterval: 10
-    NumSpawnEachTime: 5
+    NumSpawnEachTime: 3
   - AIGameObjectPrefabPath: Character/Creep/Bomb/Bomb
-    FirstSpawnDelay: 10
+    FirstSpawnDelay: 20
     SpawnInterval: 15
-    NumSpawnEachTime: 10
+    NumSpawnEachTime: 5
   - AIGameObjectPrefabPath: Character/Creep/Ghost/Ghost
-    FirstSpawnDelay: 10
+    FirstSpawnDelay: 50
     SpawnInterval: 20
     NumSpawnEachTime: 6
   - AIGameObjectPrefabPath: Character/Creep/Hermit/Hermit King
@@ -47045,7 +47045,7 @@ MonoBehaviour:
   - AIGameObjectPrefabPath: Character/Creep/Shadow/Shadow
     FirstSpawnDelay: 0
     SpawnInterval: 10
-    NumSpawnEachTime: 7
+    NumSpawnEachTime: 3
 --- !u!1001 &1992393815
 PrefabInstance:
   m_ObjectHideFlags: 0
